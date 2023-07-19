@@ -1,7 +1,7 @@
 // Este es el punto de entrada de tu aplicacion
 
-import { myFunction } from './lib/index.js';
+import login from './components/login';
 
-myFunction();
+const root = document.getElementById('root');
 
-//Prueba
+root.append(login());
