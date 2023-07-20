@@ -6,8 +6,9 @@ function login(navigateTo) {
   const inputEmailUser = document.createElement('input');
   const inputPassword = document.createElement('input');
 
-  inputEmailUser.placeholder = 'Write email';
-  inputPassword.placeholder = 'pass';
+  inputEmailUser.placeholder = 'Correo electrónico';
+  inputEmailUser.type = 'email';
+  inputPassword.placeholder = 'Contraseña';
   inputPassword.type = 'password';
   title.textContent = "INICIAR SESION";
   button.textContent = 'Registro';
