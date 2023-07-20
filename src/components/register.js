@@ -1,7 +1,7 @@
 function register() {
   const section = document.createElement("section");
   const title = document.createElement("h2");
-  title.textContent = "INICIAR SESION";
+  title.textContent = "REGISTRO";
   section.append(title);
   return section;
 }

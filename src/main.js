@@ -1,13 +1,10 @@
 // Este es el punto de entrada de tu aplicacion
 
-import login from "./components/login";
-import register from "./components/register";
+import login from './components/login.js';
+import register from './components/register.js';
 
 const root = document.getElementById("root");
 
-const routes = [
-  { path: "/", component: login },
-  { path: "/register", component: register },
-];
+root.append(login());
 
-const defaultRoute = "/"; .
+root.append(register());
