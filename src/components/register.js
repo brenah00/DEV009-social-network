@@ -1,5 +1,7 @@
 function register(navigateTo) {
   const section = document.createElement("section");
+  section.className = 'register-user';
+  const logo = document.createElement('img');
   const title = document.createElement("h2");
   const button = document.createElement('button');
   const userName = document.createElement('input');
@@ -9,6 +11,8 @@ function register(navigateTo) {
   const userPassword = document.createElement('input');
 
   title.textContent = "REGISTRO";
+  logo.src = 'src/MyMusic1.png';
+  
   userName.placeholder = 'Nombre';
   userLastName.placeholder = 'Apellidos';
   userEmail.placeholder = 'Correo electrónico';
@@ -21,7 +25,7 @@ function register(navigateTo) {
   button.addEventListener('click',()=>{
     navigateTo('/home');
   });
-  section.append(title,userName,userLastName,userEmail,userBirthDate,userPassword,button);
+  section.append(logo,title,userName,userLastName,userEmail,userBirthDate,userPassword,button);
   return section;
 }
 export default register;
