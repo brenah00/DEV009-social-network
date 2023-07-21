@@ -1,5 +1,5 @@
 import {
-  createUserWithEmailAndPassword, 
+  createUserWithEmailAndPassword,
 } from 'firebase/auth';
 
 import { auth } from '../lib/index.js';
@@ -12,7 +12,7 @@ function register(navigateTo) {
   const logo = document.createElement('img');
   const title = document.createElement('h2');
   const button = document.createElement('button');
- 
+
   const userName = document.createElement('input');
   const userLastName = document.createElement('input');
   const userEmail = document.createElement('input');
@@ -42,7 +42,7 @@ function register(navigateTo) {
       console.log(error);
     }
   });
- 
+
   elementDiv.append(
     title,
     userName,
@@ -51,7 +51,7 @@ function register(navigateTo) {
     userBirthDate,
     userPassword,
     button,
-    
+
   );
   section.append(logo, elementDiv);
   return section;

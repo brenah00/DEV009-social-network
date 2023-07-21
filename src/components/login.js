@@ -3,6 +3,10 @@ import { auth } from "../lib/index.js";
 
 function login(navigateTo) {
   const section = document.createElement("section");
+  const elementDiv = document.createElement('div');
+  elementDiv.className = 'login-container';
+  section.className = 'login-user';
+  const logo = document.createElement('img');
   const title = document.createElement("h2");
   const buttonLogin = document.createElement("button");
   const button = document.createElement("button");
@@ -18,7 +22,7 @@ function login(navigateTo) {
   button.textContent = "Registro";
   buttonLogin.textContent = "Iniciar sesión";
   buttonGoogle.textContent = "Iniciar con Google";
-
+  logo.src = 'https://www.logocrea.com/wp-content/uploads/2016/07/musica1.png';
   buttonLogin.addEventListener("click", () => {
     navigateTo("/home");
   });
@@ -37,13 +41,17 @@ function login(navigateTo) {
     }
   });
 
-  section.append(
+  elementDiv.append(
     title,
     inputEmailUser,
     inputPassword,
     buttonLogin,
     button,
-    buttonGoogle
+    buttonGoogle);
+
+  section.append(
+    logo,
+    elementDiv
   );
   return section;
 }

@@ -1,39 +1,46 @@
-body{
+body {
     min-height: 100vh;
 }
-*{
-    margin:0;
+
+* {
+    margin: 0;
 }
-.register-user{
+
+.register-user {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-input{
+
+input {
     margin-bottom: 20px;
     height: 40px;
     width: 80%;
-    font-size: 16px ;
+    font-size: 16px;
+    margin-top: 20px;
 }
 
-img{
+img {
     width: 70px;
     height: 70px;
     padding: 20px;
 }
-.register-container{
+
+.register-container {
     min-height: 85vh;
-    background: rgba(94, 23, 235,.3);
+    background: rgba(94, 23, 235, .3);
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 80%;
 }
-h2{
+
+h2 {
     margin-top: 20px;
     margin-bottom: 20px;
 }
+
 button {
     border-radius: 20px;
     height: 40px;
@@ -41,6 +48,22 @@ button {
     color: #fff;
     background: #5E17EB;
     border: 0px;
-    margin: 30px;
+    margin: 10px;
 
+}
+
+.login-user {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-container {
+    min-height: 85vh;
+    background: rgba(94, 23, 235, .3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80%;
 }
