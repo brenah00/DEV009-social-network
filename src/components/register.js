@@ -1,5 +1,7 @@
 function register(navigateTo) {
   const section = document.createElement("section");
+  const elementDiv = document.createElement("div");
+  elementDiv.className = 'register-container';
   section.className = 'register-user';
   const logo = document.createElement('img');
   const title = document.createElement("h2");
@@ -11,8 +13,7 @@ function register(navigateTo) {
   const userPassword = document.createElement('input');
 
   title.textContent = "REGISTRO";
-  logo.src = 'src/MyMusic1.png';
-  
+  logo.src = 'https://www.logocrea.com/wp-content/uploads/2016/07/musica1.png';
   userName.placeholder = 'Nombre';
   userLastName.placeholder = 'Apellidos';
   userEmail.placeholder = 'Correo electrónico';
@@ -25,7 +26,8 @@ function register(navigateTo) {
   button.addEventListener('click',()=>{
     navigateTo('/home');
   });
-  section.append(logo,title,userName,userLastName,userEmail,userBirthDate,userPassword,button);
+  elementDiv.append(title,userName,userLastName,userEmail,userBirthDate,userPassword,button);
+  section.append(logo,elementDiv);
   return section;
 }
 export default register;
