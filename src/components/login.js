@@ -23,7 +23,7 @@ function login(navigateTo) {
   button.textContent = "Registro";
   buttonLogin.textContent = "Iniciar sesión";
   buttonGoogle.textContent = "Iniciar con Google";
-  logo.src = 'https://www.logocrea.com/wp-content/uploads/2016/07/musica1.png';
+  logo.src = 'https://i.postimg.cc/h4yFZp0F/MyMusic1.png';
   buttonLogin.addEventListener("click", () => {
     navigateTo("/home");
     console.log(loginUser(inputEmailUser.value, inputPassword.value));

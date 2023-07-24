@@ -18,7 +18,7 @@ function register(navigateTo) {
   const userPassword = document.createElement('input');
 
   title.textContent = 'REGISTRO';
-  logo.src = 'https://www.logocrea.com/wp-content/uploads/2016/07/musica1.png';
+  logo.src = 'https://i.postimg.cc/h4yFZp0F/MyMusic1.png';
   userName.placeholder = 'Nombre';
   userLastName.placeholder = 'Apellidos';
   userEmail.placeholder = 'Correo electrónico';
