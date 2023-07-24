@@ -1,5 +1,5 @@
 import {
-  loginGoogle/*, loginUser*/
+  loginGoogle, loginUser
 } from '../lib/authentication.js';
 
 function login(navigateTo) {
@@ -26,6 +26,7 @@ function login(navigateTo) {
   logo.src = 'https://www.logocrea.com/wp-content/uploads/2016/07/musica1.png';
   buttonLogin.addEventListener("click", () => {
     navigateTo("/home");
+    console.log(loginUser(inputEmailUser.value, inputPassword.value));
   });
 
   button.addEventListener("click", () => {
