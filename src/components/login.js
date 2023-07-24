@@ -34,7 +34,7 @@ function login(navigateTo) {
 
   buttonGoogle.addEventListener("click", () => {
     navigateTo("/home");
-    console(loginGoogle());
+    console.log(loginGoogle());
   });
 
   elementDiv.append(
