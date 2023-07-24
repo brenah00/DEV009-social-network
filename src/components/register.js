@@ -1,8 +1,6 @@
 import {
-  createUserWithEmailAndPassword,
-} from 'firebase/auth';
-
-import { auth } from '../lib/index.js';
+  newRegister
+} from '../lib/authentication.js';
 
 function register(navigateTo) {
   const section = document.createElement('section');
@@ -30,17 +28,9 @@ function register(navigateTo) {
   userPassword.placeholder = 'Contraseña';
   userPassword.type = 'password';
   button.textContent = 'Registrarse';
-  button.addEventListener('click', async () => {
+  button.addEventListener('click', () => {
     navigateTo('/home');
-    try {
-      const userCredentials = await createUserWithEmailAndPassword(
-        auth,
-        userEmail.value,
-        userPassword.value,
-      );
-    } catch (error) {
-      console.log(error);
-    }
+    console.log(newRegister(userEmail.value,userPassword.value));
   });
 
   elementDiv.append(

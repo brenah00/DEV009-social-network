@@ -1,5 +1,6 @@
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../lib/index.js";
+import {
+  loginGoogle/*, loginUser*/
+} from '../lib/authentication.js';
 
 function login(navigateTo) {
   const section = document.createElement("section");
@@ -31,14 +32,9 @@ function login(navigateTo) {
     navigateTo("/register");
   });
 
-  buttonGoogle.addEventListener("click", async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      const credentials = await signInWithPopup(auth, provider);
-      console.log(credentials);
-    } catch (error) {
-      console.log(error);
-    }
+  buttonGoogle.addEventListener("click", () => {
+    navigateTo("/home");
+    console(loginGoogle());
   });
 
   elementDiv.append(
