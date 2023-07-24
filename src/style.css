@@ -1,67 +1,7 @@
-@media (max-width: 415px){
-
-.register-user {
-    min-height: 100vh;
-    flex-direction: column;
-    align-items: center;
-}
-
-input {
-    margin-bottom: 20px;
-    height: 40px;
-    width: 80%;
-    font-size: 16px;
-    margin-top: 20px;
-}
-
-img {
-    width: 70px;
-    height: 70px;
-    padding: 20px;
-}
-
-.register-container {
-    min-height: 85vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 80%;
-}
-
-h2 {
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-button {
-    border-radius: 20px;
-    height: 40px;
-    width: 50%;
-    border: 0px;
-    margin: 10px;
-
-}
-
-.login-user {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.login-container {
-    min-height: 85vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 80%;
-}}
-
-
 
 body {
     min-height: 100vh;
-   
+
 }
 
 * {
@@ -92,6 +32,7 @@ img {
 #root {
     align-items: center;
 }
+
 .register-container {
     min-height: 85vh;
     background: rgba(94, 23, 235, .3);
@@ -106,7 +47,7 @@ h2 {
     margin-top: 20px;
     margin-bottom: 20px;
     font-family: 'Ysabeau Office', sans-serif;
-    
+
 }
 
 button {
@@ -117,7 +58,19 @@ button {
     background: #5E17EB;
     border: 0px;
     margin: 10px;
-    font-size:large;
+    font-size: large;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+
+}
+
+button img {
+    height: 30px;
+    width: 30px;
+    padding: 0;
+    padding-left: 5%;
+
 
 }
 
@@ -138,6 +91,61 @@ button {
     justify-content: center;
 }
 
-@media (max-width: 769px) {
+@media screen and (max-width: 415px) {
 
+    .register-user {
+        min-height: 100vh;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    input {
+        margin-bottom: 20px;
+        height: 40px;
+        width: 80%;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+
+    .register-container {
+        min-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 300px;
+    }
+
+    h2 {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    img {
+        width: 60%;
+    }
+
+    button {
+        border-radius: 20px;
+        height: 40px;
+        width: 70%;
+        border: 0px;
+        margin: 10px;
+
+    }
+
+    .login-user {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .login-container {
+        width: 300px;
+        min-height: 85vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+    }
 }
