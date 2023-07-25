@@ -16,7 +16,7 @@ export const newRegister = async(email, password) => {
         );
         return userCredentials;
     } catch (error) {
-        return error;
+        return error.message;
     }
 };
 export const loginGoogle = async() => {
