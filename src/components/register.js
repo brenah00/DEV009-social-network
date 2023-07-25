@@ -30,10 +30,10 @@ function register(navigateTo) {
   button.textContent = 'Registrarse';
   button.addEventListener('click', () => {
     //console.log(userBirthDate.value)
-    const correoRegExp = '/^[^\s@]+@[^\s@]+\.[^\s@]+$/';
+    const correoRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if(userName.value.length === 0 || userLastName.value.length === 0 || userEmail.value.length === 0 || userBirthDate.value.length === 0 || userPassword.value.length === 0){
       alert('Por favor llena todos los campos');
-    }else if (correoRegExp.match(userEmail.value)) {
+    }else if (userEmail.value.match(correoRegExp)) {
         if(userPassword.value.length < 8){
           alert('Introduce una contraseña con 8 o más caracteres');
         }else{ 
