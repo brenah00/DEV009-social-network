@@ -29,8 +29,21 @@ function register(navigateTo) {
   userPassword.type = 'password';
   button.textContent = 'Registrarse';
   button.addEventListener('click', () => {
-    navigateTo('/home');
-    console.log(newRegister(userEmail.value,userPassword.value));
+    //console.log(userBirthDate.value)
+    const correoRegExp = '/^[^\s@]+@[^\s@]+\.[^\s@]+$/';
+    if(userName.value.length === 0 || userLastName.value.length === 0 || userEmail.value.length === 0 || userBirthDate.value.length === 0 || userPassword.value.length === 0){
+      alert('Por favor llena todos los campos');
+    }else if (correoRegExp.match(userEmail.value)) {
+        if(userPassword.value.length < 8){
+          alert('Introduce una contraseña con 8 o más caracteres');
+        }else{ 
+          alert('Hola');
+          navigateTo('/home');
+          console.log(newRegister(userEmail.value, userPassword.value));
+        }
+      }else {
+        alert('Por favor, ingresa un correo electrónico válido.');
+      }
   });
 
   elementDiv.append(
@@ -41,7 +54,6 @@ function register(navigateTo) {
     userBirthDate,
     userPassword,
     button,
-
   );
   section.append(logo, elementDiv);
   return section;

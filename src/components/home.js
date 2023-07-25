@@ -1,5 +1,5 @@
 import {
-  logoutUser
+  logoutUser,
 } from '../lib/authentication.js';
 
 function home(navigateTo) {
