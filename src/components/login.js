@@ -1,3 +1,4 @@
+import { async } from 'regenerator-runtime';
 import {
   loginGoogle, loginUser,
 } from '../lib/authentication.js';
@@ -26,10 +27,28 @@ function login(navigateTo) {
   buttonGoogle.textContent = 'Iniciar con Google';
   logoGoogle.src = 'https://cdn-icons-png.flaticon.com/512/300/300221.png';
   logo.src = 'https://i.postimg.cc/h4yFZp0F/MyMusic1.png';
-  buttonLogin.addEventListener("click", () => {
-    navigateTo("/home");
-    console.log(loginUser(inputEmailUser.value, inputPassword.value));
-  });
+  buttonLogin.addEventListener("click", async() => {
+    //navigateTo("/home");
+    if(inputEmailUser.value.length === 0 || inputPassword.value.length === 0){
+      alert('Favor de llenar ambos campos');
+    }else if (!inputEmailUser.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+      alert('Por favor, ingresa un correo electrónico válido.');
+      } else {
+      // Validación exitosa, intentar ingresar
+        const loginResult = await loginUser(inputEmailUser.value, inputPassword.value);
+        switch(loginResult){
+          case 'Firebase: Error (auth/user-not-found).':
+            alert('Correo no registrado, favor de registrarse');
+            break;
+          case 'Firebase: Error (auth/wrong-password).':
+            alert('Contraseña incorrecta');
+            break;
+          default:
+            navigateTo("/home");
+        }
+      }
+    }
+  );
 
   button.addEventListener("click", () => {
     navigateTo("/register");

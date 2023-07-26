@@ -29,18 +29,13 @@ export const loginGoogle = async() => {
     }
 };
 export const loginUser = async(email, password) => {
-    signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      // Signed in 
-      const user = userCredential.user;
-      // ...
-      return user;
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      return error;
-    });  
+     
+    try {
+        const userCredentials = await signInWithEmailAndPassword(auth, email, password);
+        return userCredentials.user;
+    } catch (error) {
+        return error.message;
+    }
 };
 export const logoutUser = async() =>{
     signOut(auth).then(() => {
