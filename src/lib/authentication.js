@@ -2,7 +2,8 @@ import {createUserWithEmailAndPassword,
     GoogleAuthProvider, 
     signInWithPopup,
     signInWithEmailAndPassword,
-    signOut
+    signOut,
+    onAuthStateChanged
 } from 'firebase/auth';
 import { auth } from '../lib/index.js';
 import { async } from 'regenerator-runtime';
@@ -46,3 +47,16 @@ export const logoutUser = async() =>{
         // An error happened.
     });
 };
+export async function getEmail() {
+    return new Promise((resolve, reject) => {
+      const unsubscribe = auth.onAuthStateChanged((user) => {
+        unsubscribe(); // Dejamos de escuchar cambios de autenticación una vez que tenemos el resultado
+        if (user) {
+          const userEmail = user.email;
+          resolve(userEmail); // Resolvemos la promesa con el correo electrónico
+        } else {
+          resolve(null); // No hay usuario autenticado, resolvemos la promesa con null
+        }
+      });
+    });
+  }

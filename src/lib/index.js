@@ -19,7 +19,8 @@ const firebaseConfig = {
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export const dataBase = getFirestore(app);
+export const db = getFirestore(app);
+
 export const myFunction = () => {
   // aqui tu codigo
   console.log('Hola mundo!');

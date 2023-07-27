@@ -4,6 +4,9 @@ import {
 } from '../lib/authentication.js';
 
 function login(navigateTo) {
+  /*localStorage.setItem("email","hola@gmail.com");
+  localStorage.setItem("password","1234567890");
+  console.log(window.localStorage);*/
   const section = document.createElement('section');
   const elementDiv = document.createElement('div');
   elementDiv.className = 'login-container';

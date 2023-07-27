@@ -1,6 +1,7 @@
 import {
   newRegister
 } from '../lib/authentication.js';
+import { saveUser } from '../lib/firestore.js';
 
 function register(navigateTo) {
   const section = document.createElement('section');
@@ -54,6 +55,11 @@ function register(navigateTo) {
           // Hubo un error en el registro, mostrar el mensaje de error
           alert('Error al registrar: Este correo ya está registrado');
       } else {
+        await saveUser(userName.value,
+          userLastName.value,
+          userEmail.value,
+          userBirthDate.value,
+          userPassword.value);
         navigateTo('/home');
       }
   }
