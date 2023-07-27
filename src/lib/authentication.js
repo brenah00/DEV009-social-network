@@ -1,12 +1,15 @@
-import {createUserWithEmailAndPassword,
+import {getAuth,
+    createUserWithEmailAndPassword,
     GoogleAuthProvider, 
     signInWithPopup,
     signInWithEmailAndPassword,
     signOut,
     onAuthStateChanged
 } from 'firebase/auth';
-import { auth } from '../lib/index.js';
+import { app } from '../lib/index.js';
 import { async } from 'regenerator-runtime';
+//Initialize Authentication
+const auth = getAuth(app);
 
 export const newRegister = async(email, password) => {
     try {

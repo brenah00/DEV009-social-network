@@ -1,11 +1,8 @@
 import { async } from 'regenerator-runtime';
-import { /*auth,*/db } from '../lib/index.js';
-//import { getFirestore } from 'firebase/firestore';
-
-import { doc, setDoc, getDoc} from "firebase/firestore"; 
-
-// Add a new document in collection "cities"
-
+import { app } from '../lib/index.js';
+import { getFirestore, doc, setDoc, getDoc} from "firebase/firestore";
+//Initialize firestore
+const db = getFirestore(app);
 
 export const saveUser = async(userName, userLastName, userEmail, userBirthday, userPassword) => {
     await setDoc(doc(db, "users", userEmail), {
