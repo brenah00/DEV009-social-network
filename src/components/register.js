@@ -40,9 +40,9 @@ function register(navigateTo) {
       || userPassword.value.length === 0
     ) {
       alert('Por favor llena todos los campos');
-    } else if(!userEmail.value.match(correoRegExp)){
+    } else if (!userEmail.value.match(correoRegExp)) {
       alert('Por favor, ingresa un correo electrónico válido.');
-    } else if(userPassword.value.length < 8){
+    } else if (userPassword.value.length < 8) {
       alert('Introduce una contraseña con 8 o más caracteres');
     } else {
       // Validación exitosa, intentar realizar el registro
@@ -50,12 +50,12 @@ function register(navigateTo) {
         userEmail.value,
         userPassword.value,
       );
-      // console.log(registrationResult)  
+      // console.log(registrationResult)
       if (registrationResult === 'Firebase: Error (auth/email-already-in-use).') {
         // Hubo un error en el registro, mostrar el mensaje de error
         alert('Error al registrar: Este correo ya está registrado');
       } else {
-        await saveUser( 
+        await saveUser(
           userName.value,
           userLastName.value,
           userEmail.value,
@@ -66,8 +66,6 @@ function register(navigateTo) {
       }
     }
   });
-
-
   elementDiv.append(
     title,
     userName,
