@@ -62,18 +62,18 @@ function login(navigateTo) {
   buttonLogin.addEventListener('click', async () => {
     if (inputEmailUser.value.length === 0 || inputPassword.value.length === 0) {
       // alert('Favor de llenar ambos campos');
-      message.textContent = 'Favor de llenar ambos campos';
+      message.textContent = 'Introduce el correo electrónico y contraseña de tu cuenta.';
     } else if (!inputEmailUser.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-      alert('Por favor, ingresa un correo electrónico válido.');
+      message.textContent = 'Verifica el correo electrónico que has introducido.';
     } else {
       // Validación exitosa, intentar ingresar
       const loginResult = await loginUser(inputEmailUser.value, inputPassword.value);
       switch (loginResult) {
         case 'Firebase: Error (auth/user-not-found).':
-          alert('Correo no registrado, favor de registrarse');
+          message.textContent = 'El correo electrónico que has introducido no está conectado a una cuenta.';
           break;
         case 'Firebase: Error (auth/wrong-password).':
-          alert('Contraseña incorrecta');
+          message.textContent = 'La contraseña que has introducido es incorrecta. ¿Has olvidado la contraseña?';
           break;
         default:
           navigateTo('/home');
