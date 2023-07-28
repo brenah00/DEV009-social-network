@@ -2,19 +2,24 @@ import {
   loginGoogle, loginUser,
 } from '../lib/authentication.js';
 
-function createLogin(inputEmailUser, inputPassword, buttonRegister, buttonLogin, buttonGoogle) {
+// eslint-disable-next-line max-len
+function createLogin(inputEmailUser, inputPassword, message, buttonRegister, buttonLogin, buttonGoogle) {
   const section = document.createElement('section');
   const elementDiv = document.createElement('div');
   const logo = document.createElement('img');
   const logoGoogle = document.createElement('img');
   const title = document.createElement('h2');
 
+  message.id = 'errorMessage';
+  message.textContent = '';
   elementDiv.className = 'login-container';
   section.className = 'login-user';
   inputEmailUser.placeholder = 'Correo electrónico';
   inputEmailUser.type = 'email';
+  inputEmailUser.id = 'userEmail';
   inputPassword.placeholder = 'Contraseña';
   inputPassword.type = 'password';
+  inputPassword.id = 'userPassword';
   title.textContent = 'INICIAR SESION';
   buttonRegister.id = 'btnRegister';
   buttonRegister.textContent = 'Registro';
@@ -30,6 +35,7 @@ function createLogin(inputEmailUser, inputPassword, buttonRegister, buttonLogin,
     title,
     inputEmailUser,
     inputPassword,
+    message,
     buttonLogin,
     buttonRegister,
     buttonGoogle,
@@ -50,11 +56,13 @@ function login(navigateTo) {
   const inputEmailUser = document.createElement('input');
   const inputPassword = document.createElement('input');
   const buttonGoogle = document.createElement('button');
+  const message = document.createElement('p');
   // eslint-disable-next-line max-len
-  const viewLogin = createLogin(inputEmailUser, inputPassword, buttonRegister, buttonLogin, buttonGoogle);
+  const viewLogin = createLogin(inputEmailUser, inputPassword, message, buttonRegister, buttonLogin, buttonGoogle);
   buttonLogin.addEventListener('click', async () => {
     if (inputEmailUser.value.length === 0 || inputPassword.value.length === 0) {
-      alert('Favor de llenar ambos campos');
+      // alert('Favor de llenar ambos campos');
+      message.textContent = 'Favor de llenar ambos campos';
     } else if (!inputEmailUser.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       alert('Por favor, ingresa un correo electrónico válido.');
     } else {
