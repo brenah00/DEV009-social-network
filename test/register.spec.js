@@ -62,7 +62,6 @@ jest.mock('firebase/auth', () => ({
     },
   }),
 }));
-
 describe('Test para validar el retorno de las credenciales en newRegister', () => {
   it('Debe retornar las credenciales del usuario registrado correctamente', async () => {
     // Ejecutar la función newRegister con credenciales válidas
@@ -74,5 +73,14 @@ describe('Test para validar el retorno de las credenciales en newRegister', () =
     // Hacer las aserciones sobre el resultado esperado (credenciales del usuario)
     expect(userCredentials.user).toEqual(user);
     expect(userCredentials.user.uid).toBe('user-uid');
+  });
+  it('Debe retornar un error', async () => {
+    // Ejecutar la función newRegister con credenciales válidas
+    jest.spyOn(require('firebase/auth'), 'createUserWithEmailAndPassword').mockRejectedValue(new Error('Firebase: Error (auth/email-already-in-use).'));
+
+    const user = await newRegister('johndoe@example.com', 'password123');
+    // Hacer las aserciones sobre el resultado esperado (credenciales del usuario)
+    // expect(userCredentials).toEqual(user);
+    expect(user).toBe('Firebase: Error (auth/email-already-in-use).');
   });
 });
