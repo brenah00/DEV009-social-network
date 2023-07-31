@@ -15,7 +15,7 @@ function createRegister(message, button, userName, userLastName, userEmail, user
   title.textContent = 'REGISTRO';
   logo.src = 'https://i.postimg.cc/h4yFZp0F/MyMusic1.png';
   userName.placeholder = 'Nombre';
-  userName.id = 'name'
+  userName.id = 'name';
   userLastName.placeholder = 'Apellidos';
   userLastName.id = 'userLastName'
   userEmail.placeholder = 'Correo electrónico';

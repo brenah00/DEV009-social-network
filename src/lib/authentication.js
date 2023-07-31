@@ -53,16 +53,14 @@ export const logoutUser = async () => {
   });
 };
 
-export const getEmail = async () => {
-  return new Promise((resolve) => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      unsubscribe(); // Dejamos de escuchar cambios de autenticación una vez que tenemos el resultado
-      if (user) {
-        const userEmail = user.email;
-        resolve(userEmail); // Resolvemos la promesa con el correo electrónico
-      } else {
-        resolve(null); // No hay usuario autenticado, resolvemos la promesa con null
-      }
-    });
+export const getEmail = async () => new Promise((resolve) => {
+  const unsubscribe = auth.onAuthStateChanged((user) => {
+    unsubscribe(); // Dejamos de escuchar cambios de autenticación una vez que tenemos el resultado
+    if (user) {
+      const userEmail = user.email;
+      resolve(userEmail); // Resolvemos la promesa con el correo electrónico
+    } else {
+      resolve(null); // No hay usuario autenticado, resolvemos la promesa con null
+    }
   });
-};
+});
