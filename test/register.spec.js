@@ -9,9 +9,13 @@ jest.mock('firebase/auth', () => ({
 }));
 
 describe('register', () => {
-  it('Arroja un mensaje que nos indica que los campos estan vacios', () => {
-    const navigateTo = jest.fn();
+  const navigateTo = jest.fn();
+  beforeEach(() => {
+    // Configurar el DOM y los elementos necesarios antes de cada prueba
+    document.body.innerHTML = ''; // Limpiar el contenido del body antes de cada prueba
     document.body.append(register(navigateTo));
+  });
+  it('Arroja un mensaje que nos indica que los campos estan vacios', () => {
     const btn = document.getElementById('btnRegister');
     btn.click();
     const message = document.getElementById('errorMessage');
@@ -19,8 +23,6 @@ describe('register', () => {
   });
 
   it('Arroja un mensaje que solicita un correo electrónico con el formato correcto', () => {
-    const navigateTo = jest.fn();
-    document.body.append(register(navigateTo));
     const name = document.getElementById('name');
     const lastName = document.getElementById('userLastName');
     const email = document.getElementById('userEmailRegister');
@@ -38,8 +40,6 @@ describe('register', () => {
   });
 
   it('Arroja un mensaje que solicita un password de mínimo 8 digitos', () => {
-    const navigateTo = jest.fn();
-    document.body.append(register(navigateTo));
     const name = document.getElementById('name');
     const lastName = document.getElementById('userLastName');
     const email = document.getElementById('userEmailRegister');
@@ -55,11 +55,8 @@ describe('register', () => {
     const message = document.getElementById('errorMessage');
     expect(message.textContent).toBe('Introduce una contraseña con 8 o más caracteres');
   });
-  // OH de que entra a una condicion cuando no debería
-  /* it('Arroja un mensaje que notifica que el usuario ya se encuentra registrado', () => {
+  it('Arroja un mensaje que notifica que el usuario ya se encuentra registrado', () => {
     jest.spyOn(authentication, 'createUserWithEmailAndPassword').mockRejectedValue(new Error('Firebase: Error (auth/email-already-in-use).'));
-    const navigateTo = jest.fn();
-    document.body.append(register(navigateTo));
     const name = document.getElementById('name');
     const lastName = document.getElementById('userLastName');
     const email = document.getElementById('userEmailRegister');
@@ -74,7 +71,7 @@ describe('register', () => {
     btn.click();
     const message = document.getElementById('errorMessage');
     expect(message.textContent).toBe('Este correo ya se encuentra registrado');
-  }); */
+  });
 });
 
 describe('Test para validar el retorno de las credenciales en newRegister', () => {
