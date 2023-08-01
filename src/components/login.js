@@ -1,5 +1,7 @@
 import {
-  loginGoogle, loginUser,
+  loginGoogle,
+  loginUser,
+  loginValidate,
 } from '../lib/authentication.js';
 
 // eslint-disable-next-line max-len
@@ -77,7 +79,7 @@ function login(navigateTo) {
           message.textContent = 'La contraseña que has introducido es incorrecta. ¿Has olvidado la contraseña?';
           break;
         default:
-          navigateTo('/home');
+          loginValidate(navigateTo);
       }
     }
   });

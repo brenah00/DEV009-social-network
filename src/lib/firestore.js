@@ -2,7 +2,9 @@ import {
   getFirestore,
   doc,
   setDoc,
+  getDocs,
   getDoc,
+  collection,
 } from 'firebase/firestore';
 import { app } from './index.js';
 
@@ -32,4 +34,11 @@ export const showUserName = async (email) => {
   } catch (error) {
     return error;
   }
+};
+export const showPost = async () => {
+  const querySnapshot = await getDocs(collection(db, 'posts'));
+  querySnapshot.forEach((doc) => {
+  // doc.data() is never undefined for query doc snapshots
+  console.log(doc.id, " => ", doc.data());
+  });
 };
