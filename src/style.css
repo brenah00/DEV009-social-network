@@ -148,4 +148,20 @@ button img {
         align-items: center;
 
     }
+
+    #contentHome {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        background:rgba(94, 23, 235, .3);
+        min-height: 100vh;
+    }
+
+    #newPost {
+        margin-top: 20px;
+        width: 80%;
+        height: 150px;
+        align-items: center;
+    }    
+
 }
