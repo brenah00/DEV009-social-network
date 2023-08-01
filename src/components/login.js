@@ -68,6 +68,7 @@ function login(navigateTo) {
     } else {
       // Validación exitosa, intentar ingresar
       const loginResult = await loginUser(inputEmailUser.value, inputPassword.value);
+      // console.log(loginResult);
       switch (loginResult) {
         case 'Firebase: Error (auth/user-not-found).':
           message.textContent = 'El correo electrónico que has introducido no está conectado a una cuenta.';

@@ -2,7 +2,16 @@ import {
   newRegister,
 } from '../lib/authentication.js';
 import { saveUser } from '../lib/firestore.js';
-function createRegister(message, button, userName, userLastName, userEmail, userBirthDate, userPassword) {
+
+function createRegister(
+  message,
+  button,
+  userName,
+  userLastName,
+  userEmail,
+  userBirthDate,
+  userPassword,
+) {
   const section = document.createElement('section');
   const elementDiv = document.createElement('div');
   const logo = document.createElement('img');
@@ -17,15 +26,15 @@ function createRegister(message, button, userName, userLastName, userEmail, user
   userName.placeholder = 'Nombre';
   userName.id = 'name';
   userLastName.placeholder = 'Apellidos';
-  userLastName.id = 'userLastName'
+  userLastName.id = 'userLastName';
   userEmail.placeholder = 'Correo electrónico';
-  userEmail.id = 'userEmailRegister'
+  userEmail.id = 'userEmailRegister';
   userEmail.type = 'email';
-  userBirthDate.id = 'userBirthDate'
+  userBirthDate.id = 'userBirthDate';
   userBirthDate.placeholder = 'Fecha de nacimiento';
   userBirthDate.type = 'date';
   userPassword.placeholder = 'Contraseña';
-  userPassword.id = 'userPasswordRegister'
+  userPassword.id = 'userPasswordRegister';
   userPassword.type = 'password';
   button.id = 'btnRegister';
   button.textContent = 'Registrarse';
@@ -50,7 +59,15 @@ function register(navigateTo) {
   const userBirthDate = document.createElement('input');
   const userPassword = document.createElement('input');
   const message = document.createElement('p');
-  const viewRegister = createRegister(message, button, userName, userLastName, userEmail, userBirthDate, userPassword);
+  const viewRegister = createRegister(
+    message,
+    button,
+    userName,
+    userLastName,
+    userEmail,
+    userBirthDate,
+    userPassword,
+  );
   button.addEventListener('click', async () => {
     // console.log(userBirthDate.value)
     const correoRegExp = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -66,8 +83,10 @@ function register(navigateTo) {
       message.textContent = 'Por favor, ingresa un correo electrónico válido.';
     } else if (userPassword.value.length < 8) {
       message.textContent = 'Introduce una contraseña con 8 o más caracteres';
+      // console.log('Contraseña incorrecta');
     } else {
       // Validación exitosa, intentar realizar el registro
+      // console.log('Creación de usuario');
       const registrationResult = await newRegister(
         userEmail.value,
         userPassword.value,
@@ -75,7 +94,7 @@ function register(navigateTo) {
       // console.log(registrationResult)
       if (registrationResult === 'Firebase: Error (auth/email-already-in-use).') {
         // Hubo un error en el registro, mostrar el mensaje de error
-        message.textContent = 'Error al registrar: Este correo ya está registrado';
+        message.textContent = 'Este correo ya se encuentra registrado';
       } else {
         await saveUser(
           userName.value,

@@ -9,7 +9,7 @@ import { app } from './index.js';
 // Initialize firestore
 const db = getFirestore(app);
 
-export const saveUser = async(userName, userLastName, userEmail, userBirthday, userPassword) => {
+export const saveUser = async (userName, userLastName, userEmail, userBirthday, userPassword) => {
   await setDoc(doc(db, 'users', userEmail), {
     name: userName,
     lastName: userLastName,
