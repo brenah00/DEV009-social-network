@@ -36,9 +36,15 @@ export const showUserName = async (email) => {
   }
 };
 export const showPost = async () => {
-  const querySnapshot = await getDocs(collection(db, 'posts'));
-  querySnapshot.forEach((doc) => {
-  // doc.data() is never undefined for query doc snapshots
-  console.log(doc.id, " => ", doc.data());
-  });
+  const allPost = [];
+  try {
+    const querySnapshot = await getDocs(collection(db, 'posts'));
+    // console.log(querySnapshot);
+    querySnapshot.forEach((post) => {
+      allPost.push(post.data());
+    });
+    return allPost;
+  } catch (error) {
+    return error;
+  }
 };
