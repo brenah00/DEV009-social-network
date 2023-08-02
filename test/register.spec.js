@@ -55,7 +55,7 @@ describe('register', () => {
     const message = document.getElementById('errorMessage');
     expect(message.textContent).toBe('Introduce una contraseña con 8 o más caracteres');
   });
-  it('Arroja un mensaje que notifica que el usuario ya se encuentra registrado', () => {
+  it('Arroja un mensaje que notifica que el usuario ya se encuentra registrado', async () => {
     jest.spyOn(authentication, 'createUserWithEmailAndPassword').mockRejectedValue(new Error('Firebase: Error (auth/email-already-in-use).'));
     const name = document.getElementById('name');
     const lastName = document.getElementById('userLastName');
@@ -70,6 +70,8 @@ describe('register', () => {
     pass.value = 'password123';
     btn.click();
     const message = document.getElementById('errorMessage');
+    // eslint-disable-next-line no-promise-executor-return
+    await new Promise((resolve) => setTimeout(resolve, 0));
     expect(message.textContent).toBe('Este correo ya se encuentra registrado');
   });
 });
