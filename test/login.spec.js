@@ -7,25 +7,25 @@ jest.mock('firebase/auth', () => ({
   signInWithEmailAndPassword: jest.fn(),
 }));
 
-describe('myFunction', () => {
-  it('El boton de registro nos lleva a /register', () => {
-    const navigateTo = jest.fn();
+describe('register', () => {
+  const navigateTo = jest.fn();
+  beforeEach(() => {
+    // Configurar el DOM y los elementos necesarios antes de cada prueba
+    document.body.innerHTML = ''; // Limpiar el contenido del body antes de cada prueba
     document.body.append(login(navigateTo));
+  });
+  it('El boton de registro nos lleva a /register', () => {
     const btn = document.getElementById('btnRegister');
     btn.click();
     expect(navigateTo).toHaveBeenCalledWith('/register');
   });
   it('Arroja un mensaje que nos indica que los campos estan vacios', () => {
-    const navigateTo = jest.fn();
-    document.body.append(login(navigateTo));
     const btn = document.getElementById('btnLogin');
     btn.click();
     const message = document.getElementById('errorMessage');
     expect(message.textContent).toBe('Introduce el correo electrónico y contraseña de tu cuenta.');
   });
   it('Arroja un mensaje que solicita un correo electrónico con el formato correcto', () => {
-    const navigateTo = jest.fn();
-    document.body.append(login(navigateTo));
     const email = document.getElementById('userEmail');
     const pass = document.getElementById('userPassword');
     const btn = document.getElementById('btnLogin');
@@ -34,6 +34,32 @@ describe('myFunction', () => {
     btn.click();
     const message = document.getElementById('errorMessage');
     expect(message.textContent).toBe('Verifica el correo electrónico que has introducido.');
+  });
+  it('Arroja un mensaje que notifica que el usuario no se encuentra registrado', async () => {
+    jest.spyOn(authentication, 'signInWithEmailAndPassword').mockRejectedValue(new Error('Firebase: Error (auth/user-not-found).'));
+    const email = document.getElementById('userEmail');
+    const pass = document.getElementById('userPassword');
+    const btn = document.getElementById('btnLogin');
+    email.value = 'correo-valido@correo.com';
+    pass.value = 'password123';
+    btn.click();
+    const message = document.getElementById('errorMessage');
+    // eslint-disable-next-line no-promise-executor-return
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(message.textContent).toBe('El correo electrónico que has introducido no está conectado a una cuenta.');
+  });
+  it('Arroja un mensaje que notifica que la contraseña es incorrecta', async () => {
+    jest.spyOn(authentication, 'signInWithEmailAndPassword').mockRejectedValue(new Error('Firebase: Error (auth/wrong-password).'));
+    const email = document.getElementById('userEmail');
+    const pass = document.getElementById('userPassword');
+    const btn = document.getElementById('btnLogin');
+    email.value = 'correo-valido@correo.com';
+    pass.value = 'password123';
+    btn.click();
+    const message = document.getElementById('errorMessage');
+    // eslint-disable-next-line no-promise-executor-return
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(message.textContent).toBe('La contraseña que has introducido es incorrecta. ¿Has olvidado la contraseña?');
   });
 });
 describe('Test para validar el inicio de sesión con mocks', () => {
