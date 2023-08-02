@@ -148,6 +148,11 @@ button img {
         align-items: center;
 
     }
+    .post-box{
+        width: 90%;
+        background-color: #e4e4e4;
+        margin: 10px;
+    }
 
     #contentHome {
         display: flex;

@@ -12,11 +12,14 @@ async function showPosts(sectionPost) {
   const allPost = await showPost();
   console.log(allPost);
   allPost.forEach((post) => {
+    const contentPost = document.createElement('div');
+    contentPost.className = 'post-box';
     const title = document.createElement('h2');
     const postContent = document.createElement('p');
     title.textContent = post.title;
     postContent.textContent = post.content;
-    sectionPost.append(title, postContent);
+    contentPost.append(title, postContent);
+    sectionPost.append(contentPost);
   });
 }
 function home(navigateTo) {
