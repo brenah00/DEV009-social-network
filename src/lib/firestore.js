@@ -6,7 +6,7 @@ import {
   getDocs,
   getDoc,
   collection,
-  Timestamp,
+  orderBy,
 } from 'firebase/firestore';
 import { app } from './index.js';
 
@@ -25,7 +25,7 @@ export const saveUser = async (userName, userLastName, userEmail, userBirthday, 
 export const newPost = async (user, textToPost) => {
   await addDoc(collection(db, 'posts'), {
     contentPost: textToPost,
-    date: Timestamp.now(),
+    date: new Date().toLocaleString(),
     creator: user,
     likes: [],
   });
