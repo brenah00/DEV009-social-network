@@ -1,10 +1,12 @@
 import {
   getFirestore,
   doc,
+  addDoc,
   setDoc,
   getDocs,
   getDoc,
   collection,
+  Timestamp,
 } from 'firebase/firestore';
 import { app } from './index.js';
 
@@ -20,7 +22,14 @@ export const saveUser = async (userName, userLastName, userEmail, userBirthday, 
     password: userPassword,
   });
 };
-
+export const newPost = async (user, textToPost) => {
+  await addDoc(collection(db, 'posts'), {
+    contentPost: textToPost,
+    date: Timestamp.now(),
+    creator: user,
+    likes: [],
+  });
+};
 // eslint-disable-next-line consistent-return
 export const showUserName = async (email) => {
   try {
