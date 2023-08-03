@@ -13,8 +13,22 @@ async function showName(user) {
 }
 async function showPosts(sectionPost) {
   const allPost = await showPost();
-  // console.log(allPost);
-  allPost.forEach(async (post) => {
+
+  // Ordenamos los posts por fecha en orden descendente
+  const sortedPosts = allPost.sort((a, b) => {
+    const dateA = new Date(a.date);
+    const dateB = new Date(b.date);
+    return dateB - dateA;
+  });
+    
+   // Limpiamos la sección de posts antes de agregar los posts ordenados
+   sectionPost.innerHTML = '';
+  const userNames = []
+  
+
+  console.log(allPost);
+ 
+  for (const post of sortedPosts) {
     const contentPost = document.createElement('div');
     contentPost.className = 'post-box';
     const textContentPost = document.createElement('div');
@@ -23,13 +37,18 @@ async function showPosts(sectionPost) {
     const postContent = document.createElement('p');
     const dateInformation = document.createElement('p');
     dateInformation.textContent = post.date;
-    creator.textContent = await showUserName(post.creator);
+
+    // Obtenemos el nombre del usuario que publicó el post
+    const userName = await showUserName(post.creator);
+    creator.textContent = userName;
+
     postContent.textContent = post.contentPost;
     textContentPost.appendChild(postContent);
     contentPost.append(creator, textContentPost, dateInformation);
-    sectionPost.append(contentPost);
-  });
+    sectionPost.appendChild(contentPost); // Usamos "appendChild" para agregar el post al final
+  }
 }
+
 function home(navigateTo) {
   const textPost = document.createElement('textarea');
   const section = document.createElement('section');

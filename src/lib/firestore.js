@@ -7,14 +7,20 @@ import {
   getDoc,
   collection,
   orderBy,
-} from 'firebase/firestore';
-import { app } from './index.js';
+} from "firebase/firestore";
+import { app } from "./index.js";
 
 // Initialize firestore
 const db = getFirestore(app);
 
-export const saveUser = async (userName, userLastName, userEmail, userBirthday, userPassword) => {
-  await setDoc(doc(db, 'users', userEmail), {
+export const saveUser = async (
+  userName,
+  userLastName,
+  userEmail,
+  userBirthday,
+  userPassword
+) => {
+  await setDoc(doc(db, "users", userEmail), {
     name: userName,
     lastName: userLastName,
     email: userEmail,
@@ -23,7 +29,7 @@ export const saveUser = async (userName, userLastName, userEmail, userBirthday, 
   });
 };
 export const newPost = async (user, textToPost) => {
-  await addDoc(collection(db, 'posts'), {
+  await addDoc(collection(db, "posts"), {
     contentPost: textToPost,
     date: new Date().toLocaleString(),
     creator: user,
@@ -33,7 +39,7 @@ export const newPost = async (user, textToPost) => {
 // eslint-disable-next-line consistent-return
 export const showUserName = async (email) => {
   try {
-    const docSnap = await getDoc(doc(db, 'users', email));
+    const docSnap = await getDoc(doc(db, "users", email));
     if (docSnap.exists()) {
       return `${docSnap.data().name} ${docSnap.data().lastName}`;
     } /* else {
@@ -47,7 +53,10 @@ export const showUserName = async (email) => {
 export const showPost = async () => {
   const allPost = [];
   try {
-    const querySnapshot = await getDocs(collection(db, 'posts'));
+    const querySnapshot = await getDocs(
+      collection(db, "posts"),
+      orderBy("date", "desc")
+    );
     // console.log(querySnapshot);
     querySnapshot.forEach((post) => {
       allPost.push(post.data());
