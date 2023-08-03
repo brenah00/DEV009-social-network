@@ -10,7 +10,7 @@ jest.mock('../src/lib/authentication', () => {
   const originalModule = jest.requireActual('../src/lib/authentication');
   return {
     ...originalModule,
-    loginValidate: jest.fn().mockResolvedValue(true), 
+    loginValidate: jest.fn().mockResolvedValue(true),
     // Mockeamos loginValidate para que resuelva con true
   };
 });

@@ -20,15 +20,9 @@ async function showPosts(sectionPost) {
     const dateB = new Date(b.date);
     return dateB - dateA;
   });
-    
-   // Limpiamos la sección de posts antes de agregar los posts ordenados
-   sectionPost.innerHTML = '';
-  const userNames = []
-  
-
-  console.log(allPost);
- 
-  for (const post of sortedPosts) {
+  // Limpiamos la sección de posts antes de agregar los posts ordenados
+  sectionPost.innerHTML = '';
+  sortedPosts.forEach((post) => {
     const contentPost = document.createElement('div');
     contentPost.className = 'post-box';
     const textContentPost = document.createElement('div');
@@ -39,14 +33,15 @@ async function showPosts(sectionPost) {
     dateInformation.textContent = post.date;
 
     // Obtenemos el nombre del usuario que publicó el post
-    const userName = await showUserName(post.creator);
-    creator.textContent = userName;
+    showUserName(post.creator).then((userName) => {
+      creator.textContent = userName;
+    });
 
     postContent.textContent = post.contentPost;
     textContentPost.appendChild(postContent);
     contentPost.append(creator, textContentPost, dateInformation);
     sectionPost.appendChild(contentPost); // Usamos "appendChild" para agregar el post al final
-  }
+  });
 }
 
 function home(navigateTo) {
