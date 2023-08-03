@@ -1,8 +1,10 @@
+/* eslint-disable no-underscore-dangle */
 import {
   loginGoogle,
   loginUser,
   loginValidate,
 } from '../lib/authentication.js';
+import { saveUser } from '../lib/firestore.js';
 
 // eslint-disable-next-line max-len
 function createLogin(inputEmailUser, inputPassword, message, buttonRegister, buttonLogin, buttonGoogle) {
@@ -82,8 +84,6 @@ function login(navigateTo) {
           // console.log(loginValidate());
           if (await loginValidate() === true) {
             navigateTo('/home');
-          } else {
-            console.log('Hola');
           }
       }
     }
@@ -92,9 +92,16 @@ function login(navigateTo) {
     navigateTo('/register');
   });
 
-  buttonGoogle.addEventListener('click', () => {
+  buttonGoogle.addEventListener('click', async () => {
+    const userCredentials = await loginGoogle();
+    await saveUser(
+      userCredentials._tokenResponse.firstName,
+      userCredentials._tokenResponse.lastName,
+      userCredentials.user.email,
+      '',
+      '',
+    );
     navigateTo('/home');
-    console.log(loginGoogle());
   });
   return viewLogin;
 }

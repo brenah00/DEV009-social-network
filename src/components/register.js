@@ -90,13 +90,10 @@ function register(navigateTo) {
         userEmail.value,
         userPassword.value,
       );
-      console.log(registrationResult);
       if (registrationResult === 'Firebase: Error (auth/email-already-in-use).') {
         // Hubo un error en el registro, mostrar el mensaje de error
         message.textContent = 'Este correo ya se encuentra registrado';
-        console.log('Adios');
       } else {
-        console.log('Hola');
         await saveUser(
           userName.value,
           userLastName.value,
@@ -106,7 +103,6 @@ function register(navigateTo) {
         );
         navigateTo('/home');
       }
-      console.log(registrationResult);
     }
   });
   return viewRegister;

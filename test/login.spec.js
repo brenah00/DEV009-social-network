@@ -1,6 +1,6 @@
 import * as authentication from 'firebase/auth';
 import login from '../src/components/login.js';
-import { loginUser, loginValidate } from '../src/lib/authentication.js';
+import { loginUser } from '../src/lib/authentication.js';
 
 jest.mock('firebase/auth', () => ({
   getAuth: jest.fn(),
