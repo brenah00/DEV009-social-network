@@ -53,7 +53,7 @@ export const logoutUser = async () => {
   });
 };
 
-export const loginValidate = async (navigateTo) => {
+/* export const loginValidate = async (navigateTo) => {
   auth.onAuthStateChanged((user) => {
     if (user) {
       navigateTo('/home');
@@ -61,7 +61,16 @@ export const loginValidate = async (navigateTo) => {
       navigateTo('/');
     }
   });
-};
+}; */
+export const loginValidate = async () => new Promise((resolve) => {
+  auth.onAuthStateChanged((user) => {
+    if (user) {
+      resolve(true);
+    } else {
+      resolve(false);
+    }
+  });
+});
 export const getEmail = async () => new Promise((resolve) => {
   const unsubscribe = auth.onAuthStateChanged((user) => {
     unsubscribe(); // Dejamos de escuchar cambios de autenticación una vez que tenemos el resultado

@@ -70,7 +70,7 @@ function login(navigateTo) {
     } else {
       // Validación exitosa, intentar ingresar
       const loginResult = await loginUser(inputEmailUser.value, inputPassword.value);
-      // console.log(loginResult);
+      console.log(loginResult);
       switch (loginResult) {
         case 'Firebase: Error (auth/user-not-found).':
           message.textContent = 'El correo electrónico que has introducido no está conectado a una cuenta.';
@@ -79,7 +79,12 @@ function login(navigateTo) {
           message.textContent = 'La contraseña que has introducido es incorrecta. ¿Has olvidado la contraseña?';
           break;
         default:
-          loginValidate(navigateTo);
+          // console.log(loginValidate());
+          if (await loginValidate() === true) {
+            navigateTo('/home');
+          } else {
+            console.log('Hola');
+          }
       }
     }
   });

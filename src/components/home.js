@@ -13,15 +13,20 @@ async function showName(user) {
 }
 async function showPosts(sectionPost) {
   const allPost = await showPost();
-  console.log(allPost);
-  allPost.forEach((post) => {
+  // console.log(allPost);
+  allPost.forEach(async (post) => {
     const contentPost = document.createElement('div');
     contentPost.className = 'post-box';
-    const creator = document.createElement('h2');
+    const textContentPost = document.createElement('div');
+    textContentPost.className = 'text-box';
+    const creator = document.createElement('h3');
     const postContent = document.createElement('p');
-    creator.textContent = post.creator;
+    const dateInformation = document.createElement('p');
+    dateInformation.textContent = post.date;
+    creator.textContent = await showUserName(post.creator);
     postContent.textContent = post.contentPost;
-    contentPost.append(creator, postContent);
+    textContentPost.appendChild(postContent);
+    contentPost.append(creator, textContentPost, dateInformation);
     sectionPost.append(contentPost);
   });
 }
@@ -38,7 +43,8 @@ function home(navigateTo) {
   button.textContent = 'Cerrar sesión';
   textPost.placeholder = 'Que estás escuchando?';
   const sectionPost = document.createElement('section');
-  newPost.id = 'newPost';
+  sectionPost.className = 'post-section';
+  textPost.id = 'newPost';
   showName(user);
   button.addEventListener('click', () => {
     navigateTo('/');
