@@ -68,14 +68,15 @@ function home(navigateTo) {
   const buttonPublish = document.createElement('button');
   buttonPublish.textContent = 'Publicar';
   const messagePublish = document.createElement('p');
-  const button = document.createElement('button');
-  button.textContent = 'Cerrar sesión';
+  const buttonLogout = document.createElement('button');
+  buttonLogout.textContent = 'Cerrar sesión';
+  buttonLogout.id = 'btnLogout';
   textPost.placeholder = 'Que estás escuchando?';
   const sectionPost = document.createElement('section');
   sectionPost.className = 'post-section';
   textPost.id = 'newPost';
   showName(user);
-  button.addEventListener('click', () => {
+  buttonLogout.addEventListener('click', () => {
     navigateTo('/');
     logoutUser();
   });
@@ -95,7 +96,7 @@ function home(navigateTo) {
   });
 
   showPosts(sectionPost);
-  section.append(title, user, textPost, messagePublish, buttonPublish, sectionPost, button);
+  section.append(title, user, textPost, messagePublish, buttonPublish, sectionPost, buttonLogout);
   return section;
 }
 export default home;

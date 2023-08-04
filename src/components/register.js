@@ -82,10 +82,7 @@ function register(navigateTo) {
       message.textContent = 'Por favor, ingresa un correo electrónico válido.';
     } else if (userPassword.value.length < 8) {
       message.textContent = 'Introduce una contraseña con 8 o más caracteres';
-      // console.log('Contraseña incorrecta');
     } else {
-      // Validación exitosa, intentar realizar el registro
-      // console.log('Creación de usuario');
       const registrationResult = await newRegister(
         userEmail.value,
         userPassword.value,

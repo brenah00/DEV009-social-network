@@ -52,16 +52,6 @@ export const logoutUser = async () => {
     // An error happened.
   });
 };
-
-/* export const loginValidate = async (navigateTo) => {
-  auth.onAuthStateChanged((user) => {
-    if (user) {
-      navigateTo('/home');
-    } else {
-      navigateTo('/');
-    }
-  });
-}; */
 export const loginValidate = async () => new Promise((resolve) => {
   auth.onAuthStateChanged((user) => {
     if (user) {

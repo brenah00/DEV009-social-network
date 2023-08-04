@@ -7,13 +7,42 @@ jest.mock('firebase/auth', () => ({
   getAuth: jest.fn(),
   createUserWithEmailAndPassword: jest.fn(),
 }));
-
+jest.mock('firebase/firestore', () => ({
+  getFirestore: jest.fn(),
+  setDoc: jest.fn(),
+  doc: jest.fn(),
+}));
 describe('register', () => {
   const navigateTo = jest.fn();
   beforeEach(() => {
     // Configurar el DOM y los elementos necesarios antes de cada prueba
     document.body.innerHTML = ''; // Limpiar el contenido del body antes de cada prueba
     document.body.append(register(navigateTo));
+  });
+
+  it('Redirecciona a Home una vez que el usuario ha sido creado', async () => {
+    jest.spyOn(authentication, 'createUserWithEmailAndPassword').mockResolvedValue({
+      user: {
+        uid: 'user-uid',
+        email: 'example@example.com',
+      },
+    });
+    const name = document.getElementById('name');
+    const lastName = document.getElementById('userLastName');
+    const email = document.getElementById('userEmailRegister');
+    const pass = document.getElementById('userPasswordRegister');
+    const birthDate = document.getElementById('userBirthDate');
+    const btn = document.getElementById('btnRegister');
+    name.value = 'prueba';
+    lastName.value = 'apellido';
+    birthDate.value = '2000-01-01';
+    email.value = 'correo-valido@correo.com';
+    pass.value = 'password123';
+    btn.click();
+
+    // eslint-disable-next-line no-promise-executor-return
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(navigateTo).toHaveBeenCalledWith('/home');
   });
   it('Arroja un mensaje que nos indica que los campos estan vacios', () => {
     const btn = document.getElementById('btnRegister');

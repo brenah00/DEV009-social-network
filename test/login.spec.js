@@ -5,6 +5,13 @@ import { loginUser } from '../src/lib/authentication.js';
 jest.mock('firebase/auth', () => ({
   getAuth: jest.fn(),
   signInWithEmailAndPassword: jest.fn(),
+  signInWithPopup: jest.fn(),
+  GoogleAuthProvider: jest.fn(),
+}));
+jest.mock('firebase/firestore', () => ({
+  getFirestore: jest.fn(),
+  setDoc: jest.fn(),
+  doc: jest.fn(),
 }));
 jest.mock('../src/lib/authentication', () => {
   const originalModule = jest.requireActual('../src/lib/authentication');
@@ -21,6 +28,26 @@ describe('login', () => {
     // Configurar el DOM y los elementos necesarios antes de cada prueba
     document.body.innerHTML = ''; // Limpiar el contenido del body antes de cada prueba
     document.body.append(login(navigateTo));
+  });
+
+  it('Redirecciona a Home una vez que el usuario ha sido creado', async () => {
+    jest.spyOn(authentication, 'signInWithPopup').mockResolvedValue({
+      user: {
+        uid: 'google-user-uid',
+        email: 'google@example.com',
+      },
+      _tokenResponse: {
+        firstName: 'Example',
+        lastName: 'Google',
+      },
+    });
+    // Prueba para verificar las acciones del botón buttonGoogle
+    const buttonGoogle = document.getElementById('btnGoogle');
+    buttonGoogle.click();
+    // eslint-disable-next-line no-promise-executor-return
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    // Verifica si navigateTo fue llamado con '/home'
+    expect(navigateTo).toHaveBeenCalledWith('/home');
   });
   it('El boton de registro nos lleva a /register', () => {
     const btn = document.getElementById('btnRegister');

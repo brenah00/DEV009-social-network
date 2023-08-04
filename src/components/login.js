@@ -29,6 +29,7 @@ function createLogin(inputEmailUser, inputPassword, message, buttonRegister, but
   buttonRegister.textContent = 'Registro';
   buttonLogin.textContent = 'Iniciar sesión';
   buttonLogin.id = 'btnLogin';
+  buttonGoogle.id = 'btnGoogle';
   buttonGoogle.textContent = 'Iniciar con Google';
   logoGoogle.src = 'https://cdn-icons-png.flaticon.com/512/300/300221.png';
   logo.src = 'https://i.postimg.cc/h4yFZp0F/MyMusic1.png';
@@ -72,7 +73,6 @@ function login(navigateTo) {
     } else {
       // Validación exitosa, intentar ingresar
       const loginResult = await loginUser(inputEmailUser.value, inputPassword.value);
-      console.log(loginResult);
       switch (loginResult) {
         case 'Firebase: Error (auth/user-not-found).':
           message.textContent = 'El correo electrónico que has introducido no está conectado a una cuenta.';
@@ -81,7 +81,6 @@ function login(navigateTo) {
           message.textContent = 'La contraseña que has introducido es incorrecta. ¿Has olvidado la contraseña?';
           break;
         default:
-          // console.log(loginValidate());
           if (await loginValidate() === true) {
             navigateTo('/home');
           }

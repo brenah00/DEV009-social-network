@@ -57,7 +57,6 @@ export const showPost = async () => {
       collection(db, 'posts'),
       orderBy('date', 'desc'),
     );
-    // console.log(querySnapshot);
     querySnapshot.forEach((post) => {
       allPost.push(post.data());
     });
