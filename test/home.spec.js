@@ -1,6 +1,6 @@
 import { addDoc, documentId } from 'firebase/firestore';
-import home from '../src/components/home.js';
-//import  newPost  from '../src/lib/firestore.js';
+import  home from '../src/components/home.js';
+import  { newPost }  from '../src/lib/firestore.js';
 
 /* jest.mock('../src/lib/authentication.js', () => ({
   logoutUser: jest.fn(),
