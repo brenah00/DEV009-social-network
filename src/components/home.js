@@ -66,8 +66,10 @@ function home(navigateTo) {
   const user = document.createElement('p');
   title.textContent = 'HOME';
   const buttonPublish = document.createElement('button');
+  buttonPublish.id = 'btnPublish';
   buttonPublish.textContent = 'Publicar';
   const messagePublish = document.createElement('p');
+  messagePublish.id = 'msgPublish';
   const buttonLogout = document.createElement('button');
   buttonLogout.textContent = 'Cerrar sesión';
   buttonLogout.id = 'btnLogout';

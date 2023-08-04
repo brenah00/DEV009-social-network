@@ -1,5 +1,3 @@
-import * as authentication from 'firebase/auth';
-import { logoutUser } from '../src/lib/authentication.js';
 import home from '../src/components/home.js';
 
 /* jest.mock('../src/lib/authentication.js', () => ({
@@ -29,3 +27,17 @@ describe('home', () => {
     expect(navigateTo).toHaveBeenCalledWith('/');
   });
 }); */
+describe('home', () => {
+  const navigateTo = jest.fn();
+  beforeEach(() => {
+    document.body.innerHTML = '';
+    document.body.append(home(navigateTo));
+  });
+
+  it('Arroja un mensaje que nos indica que los campos estan vacios', () => {
+    const buttonPublish = document.getElementById('btnPublish');
+    buttonPublish.click();
+    const messagePublish = document.getElementById('msgPublish');
+    expect(messagePublish.textContent).toBe('El campo de publicación no puede estar vacío');
+  });
+});
