@@ -178,5 +178,20 @@ button img {
         height: 150px;
         align-items: center;
     }    
-
+    .toggle-heart {
+        position: absolute;
+        left: -100vw;
+      }
+      
+      .toggle-heart:checked + .toggle-heart-label {
+        color: #5E17EB;
+      }
+      
+      .toggle-heart-label {
+        position: relative;
+        shape-margin: 2;
+        color: rgba(94, 23, 235, .5);
+        font-size: 1.5em;
+        cursor: pointer;
+      }
 }
