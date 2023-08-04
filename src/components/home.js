@@ -1,7 +1,7 @@
 import { getEmail, logoutUser } from '../lib/authentication.js';
 import { showUserName, showPost, newPost } from '../lib/firestore.js';
 
-async function showName(user) {
+/*async function showName(user) {
   user.innerHTML = await showUserName(await getEmail());
 }
 async function showPosts(sectionPost) {
@@ -56,10 +56,11 @@ async function showPosts(sectionPost) {
     contentPost.append(creator, textContentPost, corazonDiv, dateInformation);
     sectionPost.appendChild(contentPost); // Usamos "appendChild" para agregar el post al final
   });
-}
+}*/
 
 function home(navigateTo) {
   const textPost = document.createElement('textarea');
+  textPost.id = 'textPost';
   const section = document.createElement('section');
   section.id = 'contentHome';
   const title = document.createElement('h2');
@@ -76,8 +77,8 @@ function home(navigateTo) {
   textPost.placeholder = 'Que estás escuchando?';
   const sectionPost = document.createElement('section');
   sectionPost.className = 'post-section';
-  textPost.id = 'newPost';
-  showName(user);
+  //textPost.id = 'newPost';
+  //showName(user);
   buttonLogout.addEventListener('click', () => {
     navigateTo('/');
     logoutUser();
@@ -97,7 +98,7 @@ function home(navigateTo) {
     await newPost(await getEmail(), postContent);
   });
 
-  showPosts(sectionPost);
+ // showPosts(sectionPost);
   section.append(title, user, textPost, messagePublish, buttonPublish, sectionPost, buttonLogout);
   return section;
 }
