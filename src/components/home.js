@@ -84,6 +84,55 @@ async function showPosts(sectionPost) {
     // Agregamos el div del corazón al cuerpo del documento
     postContent.textContent = post.contentPost;
     textContentPost.appendChild(postContent);
+
+// Creamos la ventana modal y sus elementos en JavaScript
+const modal = document.createElement('div');
+modal.id = 'modal';
+modal.classList.add('modal');
+
+const modalContent = document.createElement('div');
+modalContent.classList.add('modal-content');
+
+const message = document.createElement('p');
+message.textContent = '¿Está seguro que desea eliminar la publicación?';
+
+const okButton = document.createElement('button');
+okButton.id = 'okButton';
+okButton.textContent = 'OK';
+
+const cancelButton = document.createElement('button');
+cancelButton.id = 'cancelButton';
+cancelButton.textContent = 'Cancelar';
+
+modalContent.appendChild(message);
+modalContent.appendChild(okButton);
+modalContent.appendChild(cancelButton);
+modal.appendChild(modalContent);
+// document.body.appendChild(modal);  <-- Movido fuera de este lugar
+
+// Función para mostrar la ventana modal específica para cada publicación
+function showModal() {
+  modal.style.display = 'block';
+}
+// Función para ocultar la ventana modal
+function hideModal() {
+  modal.style.display = 'none';
+}
+// Evento para mostrar la ventana modal al hacer clic en el botón "Eliminar"
+buttonDelete.addEventListener('click', () => {
+  showModal();
+});
+// Evento para ejecutar la función de eliminación al hacer clic en el botón "OK"
+okButton.addEventListener('click', async () => {
+  await deletePost(contentPost.id); // Reemplaza contentPost.id con el ID correcto de la publicación
+  hideModal();
+});
+// Evento para cerrar la ventana modal al hacer clic en el botón "Cancelar"
+cancelButton.addEventListener('click', () => {
+  hideModal();
+});
+
+
     if (userActual === post.creator) {
       contentPost.append(
         creator,
@@ -99,6 +148,7 @@ async function showPosts(sectionPost) {
       contentPost.append(creator, textContentPost, corazonDiv, dateInformation);
     }
     sectionPost.appendChild(contentPost); // Usamos "appendChild" para agregar el post al final
+    document.body.appendChild(modal);
   });
 }
 
