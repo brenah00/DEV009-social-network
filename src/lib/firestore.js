@@ -8,6 +8,7 @@ import {
   collection,
   orderBy,
   updateDoc,
+  deleteDoc,
 } from 'firebase/firestore';
 import { app } from './index.js';
 
@@ -75,3 +76,7 @@ export const editPost = async (id, newText) => {
     contentPost: newText,
   });
 };
+
+export const deletePost = async (id) => {
+  await deleteDoc(doc(db, "posts", id));
+}

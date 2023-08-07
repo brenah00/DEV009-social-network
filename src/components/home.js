@@ -1,6 +1,6 @@
 import { getEmail, logoutUser } from '../lib/authentication.js';
 import {
-  showUserName, showPost, newPost, editPost,
+  showUserName, showPost, newPost, editPost, deletePost,
 } from '../lib/firestore.js';
 
 async function showName(user) {
@@ -30,6 +30,8 @@ async function showPosts(sectionPost) {
     contentPost.id = post.id;
     const buttonEdit = document.createElement('button');
     buttonEdit.textContent = 'Editar';
+    const buttonDelete = document.createElement('button');
+    buttonDelete.textContent = 'Eliminar';
     const msgPost = document.createElement('p');
     msgPost.textContent = ' ';
     const dateInformation = document.createElement('p');
@@ -55,6 +57,10 @@ async function showPosts(sectionPost) {
     showUserName(post.creator).then((userName) => {
       creator.textContent = userName;
     });
+
+    buttonDelete.addEventListener('click', async () => {
+    await deletePost(contentPost.id);
+    })
 
     const corazonDiv = document.createElement('div');
     corazonDiv.className = 'corazon'; // Agregamos la clase "corazon" al div del corazón
@@ -87,6 +93,7 @@ async function showPosts(sectionPost) {
         msgPost,
         buttonSave,
         buttonEdit,
+        buttonDelete,
       );
     } else {
       contentPost.append(creator, textContentPost, corazonDiv, dateInformation);
