@@ -78,5 +78,5 @@ export const editPost = async (id, newText) => {
 };
 
 export const deletePost = async (id) => {
-  await deleteDoc(doc(db, "posts", id));
-}
+  await deleteDoc(doc(db, 'posts', id));
+};

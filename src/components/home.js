@@ -59,8 +59,8 @@ async function showPosts(sectionPost) {
     });
 
     buttonDelete.addEventListener('click', async () => {
-    await deletePost(contentPost.id);
-    })
+      await deletePost(contentPost.id);
+    });
 
     const corazonDiv = document.createElement('div');
     corazonDiv.className = 'corazon'; // Agregamos la clase "corazon" al div del corazón
@@ -150,3 +150,4 @@ function home(navigateTo) {
   return section;
 }
 export default home;
+// hola Adri
