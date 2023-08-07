@@ -7,6 +7,7 @@ import {
   getDoc,
   collection,
   orderBy,
+  updateDoc,
 } from 'firebase/firestore';
 import { app } from './index.js';
 
@@ -58,10 +59,19 @@ export const showPost = async () => {
       orderBy('date', 'desc'),
     );
     querySnapshot.forEach((post) => {
-      allPost.push(post.data());
+      const copyPost = post.data();
+      copyPost.id = post.id;
+      allPost.push(copyPost);
     });
     return allPost;
   } catch (error) {
     return error;
   }
+};
+
+export const editPost = async (id, newText) => {
+  const postReference = doc(db, 'posts', id);
+  await updateDoc(postReference, {
+    contentPost: newText,
+  });
 };
