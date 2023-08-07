@@ -126,6 +126,7 @@ buttonDelete.addEventListener('click', () => {
 okButton.addEventListener('click', async () => {
   await deletePost(contentPost.id); // Reemplaza contentPost.id con el ID correcto de la publicación
   hideModal();
+  location.reload();
 });
 // Evento para cerrar la ventana modal al hacer clic en el botón "Cancelar"
 cancelButton.addEventListener('click', () => {
@@ -193,6 +194,7 @@ function home(navigateTo) {
     // (si se mostró previamente) y proceder con la publicación
     messagePublish.textContent = '';
     await newPost(await getEmail(), postContent);
+    location.reload();
   });
 
   showPosts(sectionPost);
