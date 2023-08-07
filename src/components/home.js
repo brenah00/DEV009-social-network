@@ -30,11 +30,22 @@ async function showPosts(sectionPost) {
     contentPost.id = post.id;
     const buttonEdit = document.createElement('button');
     buttonEdit.textContent = 'Editar';
+    const msgPost = document.createElement('p');
+    msgPost.textContent = ' ';
     const dateInformation = document.createElement('p');
     dateInformation.textContent = post.date;
     postContent.disabled = true;
-    buttonSave.addEventListener('click', () => {
-      editPost(contentPost.id, postContent.value);
+    postContent.addEventListener('change', () => {
+      if (postContent.value.length > 0) {
+        buttonSave.disabled = false;
+        buttonSave.style.background = 'rgba(94, 23, 235, 1)';
+      } else {
+        buttonSave.disabled = true;
+        buttonSave.style.background = 'rgba(94, 23, 235, .5)';
+      }
+    });
+    buttonSave.addEventListener('click', async () => {
+      await editPost(contentPost.id, postContent.value);
       postContent.disabled = true;
     });
     buttonEdit.addEventListener('click', () => {
@@ -73,6 +84,7 @@ async function showPosts(sectionPost) {
         textContentPost,
         corazonDiv,
         dateInformation,
+        msgPost,
         buttonSave,
         buttonEdit,
       );
