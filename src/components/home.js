@@ -1,5 +1,7 @@
 import { getEmail, logoutUser } from '../lib/authentication.js';
-import { showUserName, showPost, newPost, editPost, } from '../lib/firestore.js';
+import {
+  showUserName, showPost, newPost, editPost,
+} from '../lib/firestore.js';
 
 async function showName(user) {
   user.innerHTML = await showUserName(await getEmail());
@@ -13,7 +15,7 @@ async function showPosts(sectionPost) {
     const dateB = new Date(b.date);
     return dateB - dateA;
   });
-
+  const userActual = await getEmail();
   // Limpiamos la sección de posts antes de agregar los posts ordenados
   sectionPost.innerHTML = '';
   sortedPosts.forEach((post, index) => {
@@ -22,10 +24,22 @@ async function showPosts(sectionPost) {
     const textContentPost = document.createElement('div');
     textContentPost.className = 'text-box';
     const creator = document.createElement('h3');
-    const postContent = document.createElement('p');
+    const postContent = document.createElement('textarea');
+    const buttonSave = document.createElement('button');
+    buttonSave.textContent = 'Guardar';
+    contentPost.id = post.id;
+    const buttonEdit = document.createElement('button');
+    buttonEdit.textContent = 'Editar';
     const dateInformation = document.createElement('p');
     dateInformation.textContent = post.date;
-
+    postContent.disabled = true;
+    buttonSave.addEventListener('click', () => {
+      editPost(contentPost.id, postContent.value);
+      postContent.disabled = true;
+    });
+    buttonEdit.addEventListener('click', () => {
+      postContent.disabled = false;
+    });
     // Obtenemos el nombre del usuario que publicó el post
     showUserName(post.creator).then((userName) => {
       creator.textContent = userName;
@@ -53,7 +67,18 @@ async function showPosts(sectionPost) {
     // Agregamos el div del corazón al cuerpo del documento
     postContent.textContent = post.contentPost;
     textContentPost.appendChild(postContent);
-    contentPost.append(creator, textContentPost, corazonDiv, dateInformation);
+    if (userActual === post.creator) {
+      contentPost.append(
+        creator,
+        textContentPost,
+        corazonDiv,
+        dateInformation,
+        buttonSave,
+        buttonEdit,
+      );
+    } else {
+      contentPost.append(creator, textContentPost, corazonDiv, dateInformation);
+    }
     sectionPost.appendChild(contentPost); // Usamos "appendChild" para agregar el post al final
   });
 }
