@@ -1,6 +1,6 @@
 import { addDoc, documentId } from 'firebase/firestore';
 import home from '../src/components/home.js';
-//import  newPost  from '../src/lib/firestore.js';
+import { newPost } from '../src/lib/firestore.js';
 
 /* jest.mock('../src/lib/authentication.js', () => ({
   logoutUser: jest.fn(),
@@ -30,11 +30,11 @@ describe('home', () => {
   });
 }); */
 jest.mock('firebase/firestore', () => ({
-  //getDoc: jest.fn(),
+  // getDoc: jest.fn(),
   getFirestore: jest.fn(),
   addDoc: jest.fn(),
   collection: jest.fn(),
-}));  
+}));
 jest.mock('../src/lib/authentication.js', () => ({
   getEmail: jest.fn().mockResolvedValue('email@gmail.com'),
 }));
@@ -58,7 +58,8 @@ describe('home', () => {
     const buttonPublish = document.getElementById('btnPublish');
     textPost.value = 'escuchen esto';
     buttonPublish.click();
+    // eslint-disable-next-line no-promise-executor-return
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(newPost).toHaveBeenCalledWith('email@gmail.com', textPost.value);
-  })
+  });
 });
