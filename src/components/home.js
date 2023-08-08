@@ -63,13 +63,7 @@ async function showPosts(sectionPost) {
       buttonSave.style.display = 'none';
       // eslint-disable-next-line no-restricted-globals
       location.reload();
-    });
-    /* buttonEdit.addEventListener('click', () => {
-      postContent.disabled = false;
-    });
-    buttonDelete.addEventListener('click', async () => {
-      await deletePost(contentPost.id);
-    }); */
+    });   
 
     // Creamos la ventana modal y sus elementos en JavaScript
     const modal = document.createElement('div');
@@ -94,8 +88,7 @@ async function showPosts(sectionPost) {
     modalContent.appendChild(okButton);
     modalContent.appendChild(cancelButton);
     modal.appendChild(modalContent);
-    // document.body.appendChild(modal);  <-- Movido fuera de este lugar
-
+    
     // Función para mostrar la ventana modal específica para cada publicación
     function showModal() {
       modal.style.display = 'block';
@@ -104,10 +97,7 @@ async function showPosts(sectionPost) {
     function hideModal() {
       modal.style.display = 'none';
     }
-    // Evento para mostrar la ventana modal al hacer clic en el botón "Eliminar"
-    /* buttonDelete.addEventListener('click', () => {
-      showModal();
-    }); */
+   
     // Evento para ejecutar la función de eliminación al hacer clic en el botón "OK"
     okButton.addEventListener('click', async () => {
       // eslint-disable-next-line max-len
@@ -121,17 +111,12 @@ async function showPosts(sectionPost) {
       hideModal();
     });
     postMenu.addEventListener('change', async (event) => {
-      const selectOption = event.target.options.selectedIndex;
-      /* if (selectOption === 0) {
-        await editPost(contentPost.id, postContent.value);
-        postContent.disabled = true;
-      } */
+      const selectOption = event.target.options.selectedIndex;     
       if (selectOption === 1) {
         postContent.disabled = false;
         buttonSave.style.display = 'block';
       }
-      if (selectOption === 2) {
-        /* await deletePost(contentPost.id); */
+      if (selectOption === 2) {       
         showModal();
       }
     });
@@ -168,8 +153,7 @@ async function showPosts(sectionPost) {
     if (likes.includes(userActual)) {
       checkbox.checked = true;
     }
-    postMenu.append(
-      // buttonSave,
+    postMenu.append(     
       msgOption,
       buttonEdit,
       buttonDelete,
@@ -211,11 +195,7 @@ function home(navigateTo) {
   buttonLogout.id = 'btnLogout';
   textPost.placeholder = 'Que estás escuchando?';
   const sectionPost = document.createElement('section');
-  sectionPost.className = 'post-section';
-  // textPost.id = 'newPost';
-  // 3oYybeQPhuo3HUsNihx6
-  // Hola, este es el nuevo lanzamiento de Bruno Mars
-  // editPost('3oYybeQPhuo3HUsNihx6', 'Hola, esto es una prueba de editar la publicación');
+  sectionPost.className = 'post-section'; 
   showName(user);
   buttonLogout.addEventListener('click', () => {
     navigateTo('/');
@@ -230,8 +210,7 @@ function home(navigateTo) {
       messagePublish.textContent = 'El campo de publicación no puede estar vacío';
       return;
     }
-    // Si el campo no está vacío, ocultar el mensaje de error
-    // (si se mostró previamente) y proceder con la publicación
+    // Si el campo no está vacío, ocultar el mensaje de error, (si se mostró previamente) y proceder con la publicación    
     messagePublish.textContent = '';
     await newPost(await getEmail(), postContent);
     // eslint-disable-next-line no-restricted-globals
@@ -243,4 +222,4 @@ function home(navigateTo) {
   return section;
 }
 export default home;
-// hola Adri
+

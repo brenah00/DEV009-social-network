@@ -66,7 +66,7 @@ function login(navigateTo) {
   const viewLogin = createLogin(inputEmailUser, inputPassword, message, buttonRegister, buttonLogin, buttonGoogle);
   buttonLogin.addEventListener('click', async () => {
     if (inputEmailUser.value.length === 0 || inputPassword.value.length === 0) {
-      // alert('Favor de llenar ambos campos');
+     
       message.textContent = 'Introduce el correo electrónico y contraseña de tu cuenta.';
     } else if (!inputEmailUser.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
       message.textContent = 'Verifica el correo electrónico que has introducido.';
@@ -104,5 +104,4 @@ function login(navigateTo) {
   });
   return viewLogin;
 }
-
 export default login;
