@@ -25,9 +25,12 @@ async function showPosts(sectionPost) {
     textContentPost.className = 'text-box';
     const creator = document.createElement('h3');
     const postContent = document.createElement('textarea');
-    const buttonSave = document.createElement('option');
+    const buttonSave = document.createElement('button');
     buttonSave.textContent = 'Guardar';
+    buttonSave.style.display = 'none';
     contentPost.id = post.id;
+    const msgOption = document.createElement('option');
+    msgOption.textContent = '...';
     const buttonEdit = document.createElement('option');
     buttonEdit.textContent = 'Editar';
     const buttonDelete = document.createElement('option');
@@ -37,7 +40,10 @@ async function showPosts(sectionPost) {
     const dateInformation = document.createElement('p');
     dateInformation.textContent = post.date;
     const postMenu = document.createElement('select');
-
+    // Obtenemos el nombre del usuario que publicó el post
+    showUserName(post.creator).then((userName) => {
+      creator.textContent = userName;
+    });
     postContent.disabled = true;
     postContent.addEventListener('change', () => {
       if (postContent.value.length > 0) {
@@ -48,18 +54,16 @@ async function showPosts(sectionPost) {
         buttonSave.style.background = 'rgba(94, 23, 235, .5)';
       }
     });
-    /* buttonSave.addEventListener('click', async () => {
+    buttonSave.addEventListener('click', async () => {
       await editPost(contentPost.id, postContent.value);
       postContent.disabled = true;
+      buttonSave.style.display = 'none';
+      // eslint-disable-next-line no-restricted-globals
+      location.reload();
     });
-    buttonEdit.addEventListener('click', () => {
+    /* buttonEdit.addEventListener('click', () => {
       postContent.disabled = false;
     });
-    // Obtenemos el nombre del usuario que publicó el post
-    showUserName(post.creator).then((userName) => {
-      creator.textContent = userName;
-    });
-
     buttonDelete.addEventListener('click', async () => {
       await deletePost(contentPost.id);
     }); */
@@ -116,12 +120,13 @@ async function showPosts(sectionPost) {
     postMenu.addEventListener('change', async (event) => {
       const selectOption = event.target.options.selectedIndex;
       console.log(selectOption);
-      if (selectOption === 0) {
+      /* if (selectOption === 0) {
         await editPost(contentPost.id, postContent.value);
         postContent.disabled = true;
-      }
+      } */
       if (selectOption === 1) {
         postContent.disabled = false;
+        buttonSave.style.display = 'block';
       }
       if (selectOption === 2) {
         /* await deletePost(contentPost.id); */
@@ -153,7 +158,8 @@ async function showPosts(sectionPost) {
     textContentPost.appendChild(postContent);
 
     postMenu.append(
-      buttonSave,
+      // buttonSave,
+      msgOption,
       buttonEdit,
       buttonDelete,
     );
@@ -165,6 +171,7 @@ async function showPosts(sectionPost) {
         dateInformation,
         msgPost,
         postMenu,
+        buttonSave,
       );
     } else {
       contentPost.append(creator, textContentPost, corazonDiv, dateInformation);
