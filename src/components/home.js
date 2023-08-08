@@ -119,7 +119,6 @@ async function showPosts(sectionPost) {
     });
     postMenu.addEventListener('change', async (event) => {
       const selectOption = event.target.options.selectedIndex;
-      console.log(selectOption);
       /* if (selectOption === 0) {
         await editPost(contentPost.id, postContent.value);
         postContent.disabled = true;
@@ -156,7 +155,13 @@ async function showPosts(sectionPost) {
     // Agregamos el div del corazón al cuerpo del documento
     postContent.textContent = post.contentPost;
     textContentPost.appendChild(postContent);
-
+    checkbox.addEventListener('change', () => {
+      if (checkbox.checked === true) {
+        console.log('like');
+      } else {
+        console.log('no like');
+      }
+    });
     postMenu.append(
       // buttonSave,
       msgOption,
@@ -167,11 +172,11 @@ async function showPosts(sectionPost) {
       contentPost.append(
         creator,
         textContentPost,
+        buttonSave,
         corazonDiv,
         dateInformation,
         msgPost,
         postMenu,
-        buttonSave,
       );
     } else {
       contentPost.append(creator, textContentPost, corazonDiv, dateInformation);
