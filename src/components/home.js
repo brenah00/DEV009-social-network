@@ -25,17 +25,19 @@ async function showPosts(sectionPost) {
     textContentPost.className = 'text-box';
     const creator = document.createElement('h3');
     const postContent = document.createElement('textarea');
-    const buttonSave = document.createElement('button');
+    const buttonSave = document.createElement('option');
     buttonSave.textContent = 'Guardar';
     contentPost.id = post.id;
-    const buttonEdit = document.createElement('button');
+    const buttonEdit = document.createElement('option');
     buttonEdit.textContent = 'Editar';
-    const buttonDelete = document.createElement('button');
+    const buttonDelete = document.createElement('option');
     buttonDelete.textContent = 'Eliminar';
     const msgPost = document.createElement('p');
     msgPost.textContent = ' ';
     const dateInformation = document.createElement('p');
     dateInformation.textContent = post.date;
+    const postMenu = document.createElement('select');
+
     postContent.disabled = true;
     postContent.addEventListener('change', () => {
       if (postContent.value.length > 0) {
@@ -46,7 +48,7 @@ async function showPosts(sectionPost) {
         buttonSave.style.background = 'rgba(94, 23, 235, .5)';
       }
     });
-    buttonSave.addEventListener('click', async () => {
+    /* buttonSave.addEventListener('click', async () => {
       await editPost(contentPost.id, postContent.value);
       postContent.disabled = true;
     });
@@ -60,6 +62,71 @@ async function showPosts(sectionPost) {
 
     buttonDelete.addEventListener('click', async () => {
       await deletePost(contentPost.id);
+    }); */
+
+    // Creamos la ventana modal y sus elementos en JavaScript
+    const modal = document.createElement('div');
+    modal.id = 'modal';
+    modal.classList.add('modal');
+
+    const modalContent = document.createElement('div');
+    modalContent.classList.add('modal-content');
+
+    const message = document.createElement('p');
+    message.textContent = '¿Está seguro que desea eliminar la publicación?';
+
+    const okButton = document.createElement('button');
+    okButton.id = 'okButton';
+    okButton.textContent = 'OK';
+
+    const cancelButton = document.createElement('button');
+    cancelButton.id = 'cancelButton';
+    cancelButton.textContent = 'Cancelar';
+
+    modalContent.appendChild(message);
+    modalContent.appendChild(okButton);
+    modalContent.appendChild(cancelButton);
+    modal.appendChild(modalContent);
+    // document.body.appendChild(modal);  <-- Movido fuera de este lugar
+
+    // Función para mostrar la ventana modal específica para cada publicación
+    function showModal() {
+      modal.style.display = 'block';
+    }
+    // Función para ocultar la ventana modal
+    function hideModal() {
+      modal.style.display = 'none';
+    }
+    // Evento para mostrar la ventana modal al hacer clic en el botón "Eliminar"
+    /* buttonDelete.addEventListener('click', () => {
+      showModal();
+    }); */
+    // Evento para ejecutar la función de eliminación al hacer clic en el botón "OK"
+    okButton.addEventListener('click', async () => {
+      // eslint-disable-next-line max-len
+      await deletePost(contentPost.id); // Reemplaza contentPost.id con el ID correcto de la publicación
+      hideModal();
+      // eslint-disable-next-line no-restricted-globals
+      location.reload();
+    });
+    // Evento para cerrar la ventana modal al hacer clic en el botón "Cancelar"
+    cancelButton.addEventListener('click', () => {
+      hideModal();
+    });
+    postMenu.addEventListener('change', async (event) => {
+      const selectOption = event.target.options.selectedIndex;
+      console.log(selectOption);
+      if (selectOption === 0) {
+        await editPost(contentPost.id, postContent.value);
+        postContent.disabled = true;
+      }
+      if (selectOption === 1) {
+        postContent.disabled = false;
+      }
+      if (selectOption === 2) {
+        /* await deletePost(contentPost.id); */
+        showModal();
+      }
     });
 
     const corazonDiv = document.createElement('div');
@@ -85,55 +152,11 @@ async function showPosts(sectionPost) {
     postContent.textContent = post.contentPost;
     textContentPost.appendChild(postContent);
 
-// Creamos la ventana modal y sus elementos en JavaScript
-const modal = document.createElement('div');
-modal.id = 'modal';
-modal.classList.add('modal');
-
-const modalContent = document.createElement('div');
-modalContent.classList.add('modal-content');
-
-const message = document.createElement('p');
-message.textContent = '¿Está seguro que desea eliminar la publicación?';
-
-const okButton = document.createElement('button');
-okButton.id = 'okButton';
-okButton.textContent = 'OK';
-
-const cancelButton = document.createElement('button');
-cancelButton.id = 'cancelButton';
-cancelButton.textContent = 'Cancelar';
-
-modalContent.appendChild(message);
-modalContent.appendChild(okButton);
-modalContent.appendChild(cancelButton);
-modal.appendChild(modalContent);
-// document.body.appendChild(modal);  <-- Movido fuera de este lugar
-
-// Función para mostrar la ventana modal específica para cada publicación
-function showModal() {
-  modal.style.display = 'block';
-}
-// Función para ocultar la ventana modal
-function hideModal() {
-  modal.style.display = 'none';
-}
-// Evento para mostrar la ventana modal al hacer clic en el botón "Eliminar"
-buttonDelete.addEventListener('click', () => {
-  showModal();
-});
-// Evento para ejecutar la función de eliminación al hacer clic en el botón "OK"
-okButton.addEventListener('click', async () => {
-  await deletePost(contentPost.id); // Reemplaza contentPost.id con el ID correcto de la publicación
-  hideModal();
-  location.reload();
-});
-// Evento para cerrar la ventana modal al hacer clic en el botón "Cancelar"
-cancelButton.addEventListener('click', () => {
-  hideModal();
-});
-
-
+    postMenu.append(
+      buttonSave,
+      buttonEdit,
+      buttonDelete,
+    );
     if (userActual === post.creator) {
       contentPost.append(
         creator,
@@ -141,9 +164,7 @@ cancelButton.addEventListener('click', () => {
         corazonDiv,
         dateInformation,
         msgPost,
-        buttonSave,
-        buttonEdit,
-        buttonDelete,
+        postMenu,
       );
     } else {
       contentPost.append(creator, textContentPost, corazonDiv, dateInformation);
@@ -194,6 +215,7 @@ function home(navigateTo) {
     // (si se mostró previamente) y proceder con la publicación
     messagePublish.textContent = '';
     await newPost(await getEmail(), postContent);
+    // eslint-disable-next-line no-restricted-globals
     location.reload();
   });
 
