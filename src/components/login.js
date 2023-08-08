@@ -7,13 +7,13 @@ import {
 import { saveUser } from '../lib/firestore.js';
 
 // eslint-disable-next-line max-len
-function createLogin(inputEmailUser, inputPassword, message, buttonRegister, buttonLogin, buttonGoogle) {
+function createLogin(inputEmailUser, inputPassword, message, buttonRegister, buttonLogin, buttonGoogle, inputStorage,) {
   const section = document.createElement('section');
   const elementDiv = document.createElement('div');
   const logo = document.createElement('img');
   const logoGoogle = document.createElement('img');
   const title = document.createElement('h2');
-
+  const permanentSesion = document.createElement('label');
   message.id = 'errorMessage';
   message.textContent = '';
   elementDiv.className = 'login-container';
@@ -33,6 +33,9 @@ function createLogin(inputEmailUser, inputPassword, message, buttonRegister, but
   buttonGoogle.textContent = 'Iniciar con Google';
   logoGoogle.src = 'https://cdn-icons-png.flaticon.com/512/300/300221.png';
   logo.src = 'https://i.postimg.cc/h4yFZp0F/MyMusic1.png';
+  inputStorage.setAttribute('type', 'checkbox');
+  permanentSesion.textContent = 'Desea mantener iniciada la sesión?';
+
   buttonGoogle.append(
     logoGoogle,
   );
@@ -40,10 +43,13 @@ function createLogin(inputEmailUser, inputPassword, message, buttonRegister, but
     title,
     inputEmailUser,
     inputPassword,
+    inputStorage,
+    permanentSesion,
     message,
     buttonLogin,
     buttonRegister,
     buttonGoogle,
+    
   );
 
   section.append(
@@ -53,17 +59,19 @@ function createLogin(inputEmailUser, inputPassword, message, buttonRegister, but
   return section;
 }
 function login(navigateTo) {
-  /* localStorage.setItem("email","hola@gmail.com");
+  localStorage.setItem("email","hola@gmail.com");
   localStorage.setItem("password","1234567890");
-  console.log(window.localStorage); */
+  console.log(window.localStorage); 
   const buttonLogin = document.createElement('button');
   const buttonRegister = document.createElement('button');
   const inputEmailUser = document.createElement('input');
   const inputPassword = document.createElement('input');
   const buttonGoogle = document.createElement('button');
   const message = document.createElement('p');
+  const inputStorage = document.createElement('input');
+ 
   // eslint-disable-next-line max-len
-  const viewLogin = createLogin(inputEmailUser, inputPassword, message, buttonRegister, buttonLogin, buttonGoogle);
+  const viewLogin = createLogin(inputEmailUser, inputPassword, message, buttonRegister, buttonLogin, buttonGoogle, inputStorage);
   buttonLogin.addEventListener('click', async () => {
     if (inputEmailUser.value.length === 0 || inputPassword.value.length === 0) {
      
@@ -81,6 +89,11 @@ function login(navigateTo) {
           message.textContent = 'La contraseña que has introducido es incorrecta. ¿Has olvidado la contraseña?';
           break;
         default:
+          if (inputStorage.checked === true){
+            localStorage.setItem('email', inputEmailUser.value);
+            localStorage.setItem('password', inputPassword.value);
+            console.log(window.localStorage);
+          }      
           if (await loginValidate() === true) {
             navigateTo('/home');
           }
@@ -101,7 +114,7 @@ function login(navigateTo) {
       '',
     );
     navigateTo('/home');
-  });
+  });  
   return viewLogin;
 }
 export default login;
