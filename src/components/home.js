@@ -1,6 +1,6 @@
 import { getEmail, logoutUser } from '../lib/authentication.js';
 import {
-  showUserName, showPost, newPost, editPost, deletePost,
+  showUserName, showPost, newPost, editPost, deletePost, addLike, getPostLikes,
 } from '../lib/firestore.js';
 
 async function showName(user) {
@@ -39,7 +39,10 @@ async function showPosts(sectionPost) {
     msgPost.textContent = ' ';
     const dateInformation = document.createElement('p');
     dateInformation.textContent = post.date;
+    const countLikes = document.createElement('label');
+    countLikes.textContent = `${post.likes.length} me gusta`;
     const postMenu = document.createElement('select');
+    const likes = post.likes;
     // Obtenemos el nombre del usuario que publicó el post
     showUserName(post.creator).then((userName) => {
       creator.textContent = userName;
@@ -157,11 +160,14 @@ async function showPosts(sectionPost) {
     textContentPost.appendChild(postContent);
     checkbox.addEventListener('change', () => {
       if (checkbox.checked === true) {
-        console.log('like');
+        addLike(contentPost.id, userActual);
       } else {
         console.log('no like');
       }
     });
+    if (likes.includes(userActual)) {
+      checkbox.checked = true;
+    }
     postMenu.append(
       // buttonSave,
       msgOption,
@@ -174,12 +180,13 @@ async function showPosts(sectionPost) {
         textContentPost,
         buttonSave,
         corazonDiv,
+        countLikes,
         dateInformation,
         msgPost,
         postMenu,
       );
     } else {
-      contentPost.append(creator, textContentPost, corazonDiv, dateInformation);
+      contentPost.append(creator, textContentPost, corazonDiv, countLikes, dateInformation);
     }
     sectionPost.appendChild(contentPost); // Usamos "appendChild" para agregar el post al final
     document.body.appendChild(modal);
