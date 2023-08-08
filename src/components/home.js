@@ -63,7 +63,7 @@ async function showPosts(sectionPost) {
       buttonSave.style.display = 'none';
       // eslint-disable-next-line no-restricted-globals
       location.reload();
-    });   
+    });
 
     // Creamos la ventana modal y sus elementos en JavaScript
     const modal = document.createElement('div');
@@ -88,7 +88,7 @@ async function showPosts(sectionPost) {
     modalContent.appendChild(okButton);
     modalContent.appendChild(cancelButton);
     modal.appendChild(modalContent);
-    
+
     // Función para mostrar la ventana modal específica para cada publicación
     function showModal() {
       modal.style.display = 'block';
@@ -97,7 +97,7 @@ async function showPosts(sectionPost) {
     function hideModal() {
       modal.style.display = 'none';
     }
-   
+
     // Evento para ejecutar la función de eliminación al hacer clic en el botón "OK"
     okButton.addEventListener('click', async () => {
       // eslint-disable-next-line max-len
@@ -111,12 +111,12 @@ async function showPosts(sectionPost) {
       hideModal();
     });
     postMenu.addEventListener('change', async (event) => {
-      const selectOption = event.target.options.selectedIndex;     
+      const selectOption = event.target.options.selectedIndex;
       if (selectOption === 1) {
         postContent.disabled = false;
         buttonSave.style.display = 'block';
       }
-      if (selectOption === 2) {       
+      if (selectOption === 2) {
         showModal();
       }
     });
@@ -153,7 +153,7 @@ async function showPosts(sectionPost) {
     if (likes.includes(userActual)) {
       checkbox.checked = true;
     }
-    postMenu.append(     
+    postMenu.append(
       msgOption,
       buttonEdit,
       buttonDelete,
@@ -195,9 +195,10 @@ function home(navigateTo) {
   buttonLogout.id = 'btnLogout';
   textPost.placeholder = 'Que estás escuchando?';
   const sectionPost = document.createElement('section');
-  sectionPost.className = 'post-section'; 
+  sectionPost.className = 'post-section';
   showName(user);
   buttonLogout.addEventListener('click', () => {
+    localStorage.clear();
     navigateTo('/');
     logoutUser();
   });
@@ -210,7 +211,7 @@ function home(navigateTo) {
       messagePublish.textContent = 'El campo de publicación no puede estar vacío';
       return;
     }
-    // Si el campo no está vacío, ocultar el mensaje de error, (si se mostró previamente) y proceder con la publicación    
+    // Si el campo no está vacío, ocultar el mensaje de error, (si se mostró previamente) y proceder con la publicación
     messagePublish.textContent = '';
     await newPost(await getEmail(), postContent);
     // eslint-disable-next-line no-restricted-globals
@@ -222,4 +223,3 @@ function home(navigateTo) {
   return section;
 }
 export default home;
-
