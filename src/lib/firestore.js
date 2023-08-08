@@ -81,19 +81,25 @@ export const deletePost = async (id) => {
   await deleteDoc(doc(db, 'posts', id));
 };
 
-export const getPostLikes = async (idPost) => {
-  const postReference = doc(db, 'posts', idPost);
-  const docSnap = await getDoc(postReference);
-  return docSnap;
-};
-
 export const addLike = async (idPost, user) => {
   const postReference = doc(db, 'posts', idPost);
-  const allLikes = (await getPostLikes(idPost)).data().likes;
+  const docSnap = await getDoc(postReference);
+  const allLikes = docSnap.data().likes;
   if (!allLikes.includes(user)) {
     allLikes.push(user);
     await updateDoc(postReference, {
       likes: allLikes,
+    });
+  }
+};
+export const deleteLike = async (idPost, actualUser) => {
+  const postReference = doc(db, 'posts', idPost);
+  const docSnap = await getDoc(postReference);
+  const allLikes = docSnap.data().likes;
+  if (allLikes.includes(actualUser)) {
+    // allLikes.filter(user);
+    await updateDoc(postReference, {
+      likes: allLikes.filter((user) => user !== actualUser),
     });
   }
 };

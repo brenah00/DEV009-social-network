@@ -1,6 +1,6 @@
 import { getEmail, logoutUser } from '../lib/authentication.js';
 import {
-  showUserName, showPost, newPost, editPost, deletePost, addLike, getPostLikes,
+  showUserName, showPost, newPost, editPost, deletePost, addLike, deleteLike,
 } from '../lib/firestore.js';
 
 async function showName(user) {
@@ -162,7 +162,7 @@ async function showPosts(sectionPost) {
       if (checkbox.checked === true) {
         addLike(contentPost.id, userActual);
       } else {
-        console.log('no like');
+        deleteLike(contentPost.id, userActual);
       }
     });
     if (likes.includes(userActual)) {
