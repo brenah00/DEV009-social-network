@@ -211,6 +211,7 @@ function home(navigateTo) {
       messagePublish.textContent = 'El campo de publicación no puede estar vacío';
       return;
     }
+    // eslint-disable-next-line max-len
     // Si el campo no está vacío, ocultar el mensaje de error, (si se mostró previamente) y proceder con la publicación
     messagePublish.textContent = '';
     await newPost(await getEmail(), postContent);

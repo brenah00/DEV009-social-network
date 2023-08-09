@@ -83,7 +83,7 @@ function login(navigateTo) {
       } else if (!inputEmailUser.value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
         message.textContent = 'Verifica el correo electrónico que has introducido.';
       } else {
-        // Validación exitosa, intentar ingresar
+      // Validación exitosa, intentar ingresar
         const loginResult = await loginUser(inputEmailUser.value, inputPassword.value);
         switch (loginResult) {
           case 'Firebase: Error (auth/user-not-found).':
