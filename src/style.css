@@ -64,7 +64,9 @@ button {
     align-items: center;
 
 }
-
+textarea{
+    resize:none;
+}
 button img {
     height: 30px;
     width: 30px;
@@ -107,11 +109,13 @@ button img {
 }
 .text-box{
     background: #FFFFFF;
-   
+}
+.text-box > textarea{
+    background: #FFFFFF;
+    width: 90%;
 }
 .post-section{
     width: 100%;
-    /*background: #39295a;*/
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -135,6 +139,21 @@ button img {
 article {
     align-items: center;
 }
+.toggle-heart {
+  position: absolute;
+  left: -100vw;
+}
+.toggle-heart:checked + .toggle-heart-label {
+  color: #5E17EB;
+}
+.toggle-heart-label {
+  position: relative;
+  shape-margin: 2;
+  color: rgba(94, 23, 235, .5);
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
 @media screen and (max-width: 415px) {
 
     .register-user {
@@ -212,7 +231,7 @@ article {
         display: flex;
         align-items: center;
         flex-direction: column;
-        background:rgba(94, 23, 235, .3);
+        /* background:rgba(94, 23, 235, .3);*/
         min-height: 100vh;
     }
 
@@ -222,22 +241,6 @@ article {
         height: 150px;
         align-items: center;
     }    
-    .toggle-heart {
-        position: absolute;
-        left: -100vw;
-      }
-      
-      .toggle-heart:checked + .toggle-heart-label {
-        color: #5E17EB;
-      }
-      
-      .toggle-heart-label {
-        position: relative;
-        shape-margin: 2;
-        color: rgba(94, 23, 235, .5);
-        font-size: 1.5em;
-        cursor: pointer;
-      }
       .modal {
       display: none;
       position: fixed;
