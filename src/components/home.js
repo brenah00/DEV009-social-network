@@ -127,10 +127,11 @@ async function showPosts(sectionPost) {
     const checkbox = document.createElement('input');
     checkbox.setAttribute('type', 'checkbox');
     checkbox.className = 'toggle-heart'; // Agregamos la clase "toggle-heart" al checkbox
+    checkbox.setAttribute('id', `toggle-heart-${index}`);
 
     const label = document.createElement('label');
     label.className = 'toggle-heart-label'; // Agregamos la clase "toggle-heart-label" a la etiqueta
-
+    label.setAttribute('for', `toggle-heart-${index}`); // Usamos el valor del índice como identificador único para cada etiqueta
     label.setAttribute('aria-label', 'like');
     label.textContent = '❤';
 
