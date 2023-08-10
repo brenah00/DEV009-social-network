@@ -60,13 +60,14 @@ export const listenToPosts = (updateFunction) => {
     snapshot.forEach((postData) => {
       const post = postData.data();
       post.id = postData.id;
+      console.log(postData);
       updatedPosts.push(post);
     });
     updateFunction(updatedPosts);
   });
   return unsubscribe;
 };
-export const showPost = async () => {
+/* export const showPost = async () => {
   const allPost = [];
   try {
     const querySnapshot = await getDocs(
@@ -82,7 +83,7 @@ export const showPost = async () => {
   } catch (error) {
     return error;
   }
-};
+}; */
 
 export const editPost = async (id, newText) => {
   const postReference = doc(db, 'posts', id);

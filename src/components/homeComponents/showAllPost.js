@@ -33,12 +33,15 @@ function createLike(post, index, userActual) {
       deleteLike(post.id, userActual);
     }
   });
+  console.log(`hola - ${checkbox.id}`);
   return corazonDiv;
 }
 
 export async function showPosts(sectionPost) {
+  console.log('ESTOY ENTRANDO A showPosts');
   const userActual = await getEmail();
   const updateFunction = (updatedPosts) => {
+    // console.log('ESTOY ENTRANDO A updateFunction');
     const sortedPosts = updatedPosts.sort((a, b) => {
       const dateA = new Date(a.date);
       const dateB = new Date(b.date);
@@ -79,6 +82,7 @@ export async function showPosts(sectionPost) {
         creator.textContent = userName;
       });
       const likeIcon = createLike(post, index, userActual);
+      console.log('ESTA creando like');
       postMenu.addEventListener('change', async (event) => {
         const selectOption = event.target.options.selectedIndex;
         if (selectOption === 1) {
@@ -111,6 +115,7 @@ export async function showPosts(sectionPost) {
         contentPost.append(msgPost, postMenu);
       }
       sectionPost.appendChild(contentPost);
+      console.log('ESTA TERMINANDO DE RENDERIZAR TODO');
       document.body.appendChild(deletePostModal);
     });
   };

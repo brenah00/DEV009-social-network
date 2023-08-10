@@ -30,8 +30,8 @@ function home(navigateTo) {
   showName(user);
   buttonLogout.addEventListener('click', () => {
     localStorage.clear();
-    navigateTo('/');
     logoutUser();
+    navigateTo('/');
   });
 
   buttonPublish.addEventListener('click', async () => {

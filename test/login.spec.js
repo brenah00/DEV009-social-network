@@ -31,7 +31,7 @@ describe('login', () => {
   });
 
   it('Redirecciona a Home una vez que el usuario ha sido creado', async () => {
-    jest.spyOn(authentication, 'signInWithPopup').mockResolvedValue({
+    authentication.signInWithPopup.mockResolvedValue({
       user: {
         uid: 'google-user-uid',
         email: 'google@example.com',
@@ -84,7 +84,7 @@ describe('login', () => {
     expect(message.textContent).toBe('El correo electrónico que has introducido no está conectado a una cuenta.');
   });
   it('Arroja un mensaje que notifica que la contraseña es incorrecta', async () => {
-    jest.spyOn(authentication, 'signInWithEmailAndPassword').mockRejectedValue(new Error('Firebase: Error (auth/wrong-password).'));
+    authentication.signInWithEmailAndPassword.mockRejectedValue(new Error('Firebase: Error (auth/wrong-password).'));
     const email = document.getElementById('userEmail');
     const pass = document.getElementById('userPassword');
     const btn = document.getElementById('btnLogin');
@@ -97,7 +97,7 @@ describe('login', () => {
     expect(message.textContent).toBe('La contraseña que has introducido es incorrecta. ¿Has olvidado la contraseña?');
   });
   it('Nos lleva a home', async () => {
-    jest.spyOn(authentication, 'signInWithEmailAndPassword').mockResolvedValue({
+    authentication.signInWithEmailAndPassword.mockResolvedValue({
       user: {
         accessToken: 'token12345',
         email: 'test@example.com',
@@ -118,7 +118,7 @@ describe('login', () => {
 });
 describe('Test para validar el inicio de sesión con mocks', () => {
   it('Debe iniciar sesión correctamente', async () => {
-    jest.spyOn(authentication, 'signInWithEmailAndPassword').mockResolvedValue({
+    authentication.signInWithEmailAndPassword.mockResolvedValue({
       user: {
         accessToken: 'token12345',
         email: 'test@example.com',
@@ -128,13 +128,13 @@ describe('Test para validar el inicio de sesión con mocks', () => {
     expect(userLogged.accessToken).toBe('token12345');
   });
   it('Debe retornar el mensaje de error "Firebase: Error (auth/user-not-found)."', async () => {
-    jest.spyOn(authentication, 'signInWithEmailAndPassword').mockRejectedValue(new Error('Firebase: Error (auth/user-not-found).'));
+    authentication.signInWithEmailAndPassword.mockRejectedValue(new Error('Firebase: Error (auth/user-not-found).'));
 
     const user = await loginUser('test@example.com', 'password123');
     expect(user).toBe('Firebase: Error (auth/user-not-found).');
   });
   it('Debe retornar el mensaje de error "Firebase: Error (auth/wrong-password)."', async () => {
-    jest.spyOn(authentication, 'signInWithEmailAndPassword').mockRejectedValue(new Error('Firebase: Error (auth/wrong-password).'));
+    authentication.signInWithEmailAndPassword.mockRejectedValue(new Error('Firebase: Error (auth/wrong-password).'));
 
     const user = await loginUser('test@example.com', 'password123');
     expect(user).toBe('Firebase: Error (auth/wrong-password).');
