@@ -1,189 +1,21 @@
 import { getEmail, logoutUser } from '../lib/authentication.js';
-import {
-  showUserName, showPost, newPost, editPost, deletePost, addLike, deleteLike,
-} from '../lib/firestore.js';
+import { showUserName, newPost } from '../lib/firestore.js';
+import { showPosts } from './homeComponents/showAllPost.js';
 
 async function showName(user) {
   user.innerHTML = await showUserName(await getEmail());
 }
-async function showPosts(sectionPost) {
-  const allPost = await showPost();
-
-  // Ordenamos los posts por fecha en orden descendente
-  const sortedPosts = allPost.sort((a, b) => {
-    const dateA = new Date(a.date);
-    const dateB = new Date(b.date);
-    return dateB - dateA;
-  });
-  const userActual = await getEmail();
-  // Limpiamos la sección de posts antes de agregar los posts ordenados
-  sectionPost.innerHTML = '';
-  sortedPosts.forEach((post, index) => {
-    const contentPost = document.createElement('article');
-    contentPost.className = 'post-box';
-    const textContentPost = document.createElement('div');
-    textContentPost.className = 'text-box';
-    const creator = document.createElement('h3');
-    const postContent = document.createElement('textarea');
-    const buttonSave = document.createElement('button');
-    buttonSave.textContent = 'Guardar';
-    buttonSave.style.display = 'none';
-    contentPost.id = post.id;
-    const msgOption = document.createElement('option');
-    msgOption.textContent = '...';
-    const buttonEdit = document.createElement('option');
-    buttonEdit.textContent = 'Editar';
-    const buttonDelete = document.createElement('option');
-    buttonDelete.textContent = 'Eliminar';
-    const msgPost = document.createElement('p');
-    msgPost.textContent = ' ';
-    const dateInformation = document.createElement('p');
-    dateInformation.textContent = post.date;
-    const countLikes = document.createElement('label');
-    countLikes.textContent = `${post.likes.length} me gusta`;
-    const postMenu = document.createElement('select');
-    const likes = post.likes;
-    // Obtenemos el nombre del usuario que publicó el post
-    showUserName(post.creator).then((userName) => {
-      creator.textContent = userName;
-    });
-    postContent.disabled = true;
-    postContent.addEventListener('change', () => {
-      if (postContent.value.length > 0) {
-        buttonSave.disabled = false;
-        buttonSave.style.background = 'rgba(94, 23, 235, 1)';
-      } else {
-        buttonSave.disabled = true;
-        buttonSave.style.background = 'rgba(94, 23, 235, .5)';
-      }
-    });
-    buttonSave.addEventListener('click', async () => {
-      await editPost(contentPost.id, postContent.value);
-      postContent.disabled = true;
-      buttonSave.style.display = 'none';
-      // eslint-disable-next-line no-restricted-globals
-      location.reload();
-    });
-
-    // Creamos la ventana modal y sus elementos en JavaScript
-    const modal = document.createElement('div');
-    modal.id = 'modal';
-    modal.classList.add('modal');
-
-    const modalContent = document.createElement('div');
-    modalContent.classList.add('modal-content');
-
-    const message = document.createElement('p');
-    message.textContent = '¿Está seguro que desea eliminar la publicación?';
-
-    const okButton = document.createElement('button');
-    okButton.id = 'okButton';
-    okButton.textContent = 'OK';
-
-    const cancelButton = document.createElement('button');
-    cancelButton.id = 'cancelButton';
-    cancelButton.textContent = 'Cancelar';
-
-    modalContent.appendChild(message);
-    modalContent.appendChild(okButton);
-    modalContent.appendChild(cancelButton);
-    modal.appendChild(modalContent);
-
-    // Función para mostrar la ventana modal específica para cada publicación
-    function showModal() {
-      modal.style.display = 'block';
-    }
-    // Función para ocultar la ventana modal
-    function hideModal() {
-      modal.style.display = 'none';
-    }
-
-    // Evento para ejecutar la función de eliminación al hacer clic en el botón "OK"
-    okButton.addEventListener('click', async () => {
-      // eslint-disable-next-line max-len
-      await deletePost(contentPost.id); // Reemplaza contentPost.id con el ID correcto de la publicación
-      hideModal();
-      // eslint-disable-next-line no-restricted-globals
-      location.reload();
-    });
-    // Evento para cerrar la ventana modal al hacer clic en el botón "Cancelar"
-    cancelButton.addEventListener('click', () => {
-      hideModal();
-    });
-    postMenu.addEventListener('change', async (event) => {
-      const selectOption = event.target.options.selectedIndex;
-      if (selectOption === 1) {
-        postContent.disabled = false;
-        buttonSave.style.display = 'block';
-      }
-      if (selectOption === 2) {
-        showModal();
-      }
-    });
-
-    const corazonDiv = document.createElement('div');
-    corazonDiv.className = 'corazon'; // Agregamos la clase "corazon" al div del corazón
-
-    const checkbox = document.createElement('input');
-    checkbox.setAttribute('type', 'checkbox');
-    checkbox.className = 'toggle-heart'; // Agregamos la clase "toggle-heart" al checkbox
-    checkbox.setAttribute('id', `toggle-heart-${index}`);
-
-    const label = document.createElement('label');
-    label.className = 'toggle-heart-label'; // Agregamos la clase "toggle-heart-label" a la etiqueta
-    label.setAttribute('for', `toggle-heart-${index}`); // Usamos el valor del índice como identificador único para cada etiqueta
-    label.setAttribute('aria-label', 'like');
-    label.textContent = '❤';
-
-    // Agregamos el checkbox y la etiqueta al div del corazón
-    corazonDiv.appendChild(checkbox);
-    corazonDiv.appendChild(label);
-
-    // Agregamos el div del corazón al cuerpo del documento
-    postContent.textContent = post.contentPost;
-    textContentPost.appendChild(postContent);
-    checkbox.addEventListener('change', () => {
-      if (checkbox.checked === true) {
-        addLike(contentPost.id, userActual);
-      } else {
-        deleteLike(contentPost.id, userActual);
-      }
-    });
-    if (likes.includes(userActual)) {
-      checkbox.checked = true;
-    }
-    postMenu.append(
-      msgOption,
-      buttonEdit,
-      buttonDelete,
-    );
-    if (userActual === post.creator) {
-      contentPost.append(
-        creator,
-        textContentPost,
-        buttonSave,
-        corazonDiv,
-        countLikes,
-        dateInformation,
-        msgPost,
-        postMenu,
-      );
-    } else {
-      contentPost.append(creator, textContentPost, corazonDiv, countLikes, dateInformation);
-    }
-    sectionPost.appendChild(contentPost); // Usamos "appendChild" para agregar el post al final
-    document.body.appendChild(modal);
-  });
-}
 
 function home(navigateTo) {
+  const sectionHome = document.createElement('section');
+  sectionHome.id = 'contentHome';
   const textPost = document.createElement('textarea');
   textPost.id = 'textPost';
-  const section = document.createElement('section');
-  section.id = 'contentHome';
-  const title = document.createElement('h2');
+  const sectionAllPosts = document.createElement('section');
+  sectionAllPosts.id = 'section-all-posts';
+  const logo = document.createElement('img');
   const user = document.createElement('p');
-  title.textContent = 'HOME';
+  logo.src = 'https://i.postimg.cc/bJVfLCbz/My-Music-8.png';
   const buttonPublish = document.createElement('button');
   buttonPublish.id = 'btnPublish';
   buttonPublish.textContent = 'Publicar';
@@ -204,22 +36,17 @@ function home(navigateTo) {
 
   buttonPublish.addEventListener('click', async () => {
     const postContent = textPost.value.trim();
-    // Obtener el contenido del campo de publicación y eliminar espacios
-    // en blanco al inicio y al final
     if (postContent === '') {
       messagePublish.textContent = 'El campo de publicación no puede estar vacío';
-      return;
+    } else {
+      messagePublish.textContent = '';
+      await newPost(await getEmail(), postContent);
     }
-    // eslint-disable-next-line max-len
-    // Si el campo no está vacío, ocultar el mensaje de error, (si se mostró previamente) y proceder con la publicación
-    messagePublish.textContent = '';
-    await newPost(await getEmail(), postContent);
-    // eslint-disable-next-line no-restricted-globals
-    location.reload();
   });
 
   showPosts(sectionPost);
-  section.append(title, user, textPost, messagePublish, buttonPublish, sectionPost, buttonLogout);
-  return section;
+  sectionAllPosts.append(user, textPost, messagePublish, buttonPublish, sectionPost);
+  sectionHome.append(logo, sectionAllPosts, buttonLogout);
+  return sectionHome;
 }
 export default home;

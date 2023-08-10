@@ -9,6 +9,7 @@ import {
   orderBy,
   updateDoc,
   deleteDoc,
+  onSnapshot,
 } from 'firebase/firestore';
 import { app } from './index.js';
 
@@ -51,6 +52,19 @@ export const showUserName = async (email) => {
   } catch (error) {
     return error;
   }
+};
+export const listenToPosts = (updateFunction) => {
+  const query = collection(db, 'posts');
+  const unsubscribe = onSnapshot(query, (snapshot) => {
+    const updatedPosts = [];
+    snapshot.forEach((postData) => {
+      const post = postData.data();
+      post.id = postData.id;
+      updatedPosts.push(post);
+    });
+    updateFunction(updatedPosts);
+  });
+  return unsubscribe;
 };
 export const showPost = async () => {
   const allPost = [];
