@@ -51,6 +51,7 @@ jest.mock('../src/lib/firestore', () => ({
   listenToPosts: jest.fn(),
   addLike: jest.fn(),
   deleteLike: jest.fn(),
+  editPost: jest.fn(),
 }));
 // jest.mock('../src/lib/firestore');
 describe('home', () => {
@@ -135,6 +136,47 @@ describe('showAllPost', () => {
     expect(heartIcon.checked).toBe(false);
   });
   it('click the option Edit', async () => {
+    const editPostMock = jest.spyOn(firestoreMock, 'editPost');
+    const listenToPostsMock = jest.spyOn(firestoreMock, 'listenToPosts');
+    const getEmailMock = jest.spyOn(authMock, 'getEmail');
+    getEmailMock.mockResolvedValue('test@example.com');
+    listenToPostsMock.mockImplementationOnce(async (updateFunction) => {
+      const postWithLikes = [
+        {
+          id: 'post1',
+          contentPost: 'Liked post',
+          creator: 'test@example.com',
+          date: '9/8/2023, 9:51:52',
+          likes: ['test@example.com'],
+        },
+        {
+          id: 'post1',
+          contentPost: 'Liked post',
+          creator: 'test@example.com',
+          date: '10/8/2023, 15:50:06',
+          likes: [],
+        },
+      ];
+      await updateFunction(postWithLikes);
+    });
+
+    await showPosts(sectionPost);
+    // await new Promise((resolve) => setTimeout(resolve, 0));
+    const btnSaveChanges = document.getElementById('btnSaveChanges');
+    const selectElement = document.getElementById('menuPost');
+    // Índice de la opción que deseas hacer clic
+    selectElement.selectedIndex = 1;
+    expect(btnSaveChanges.style.display).toBe('none');
+    selectElement.dispatchEvent(new Event('change'));
+    expect(btnSaveChanges.style.display).toBe('block');
+    const newText = 'Hola, este es el test de editar un post';
+    const textFieldPost = document.querySelector('#post1 > div > textarea');
+    textFieldPost.value = 'Hola, este es el test de editar un post';
+    textFieldPost.dispatchEvent(new Event('change'));
+    btnSaveChanges.click();
+    expect(editPostMock).toHaveBeenCalledWith('post1', newText);
+  });
+  it('should not to call the function', async () => {
     // const editPostMock = jest.spyOn(firestoreMock, 'editPost');
     const listenToPostsMock = jest.spyOn(firestoreMock, 'listenToPosts');
     const getEmailMock = jest.spyOn(authMock, 'getEmail');
@@ -145,6 +187,14 @@ describe('showAllPost', () => {
           id: 'post1',
           contentPost: 'Liked post',
           creator: 'test@example.com',
+          date: '9/8/2023, 9:51:52',
+          likes: [],
+        },
+        {
+          id: 'post1',
+          contentPost: 'Liked post',
+          creator: 'test@example.com',
+          date: '10/8/2023, 15:50:06',
           likes: [],
         },
       ];
@@ -152,13 +202,17 @@ describe('showAllPost', () => {
     });
 
     await showPosts(sectionPost);
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    // await new Promise((resolve) => setTimeout(resolve, 0));
     const btnSaveChanges = document.getElementById('btnSaveChanges');
     const selectElement = document.getElementById('menuPost');
     // Índice de la opción que deseas hacer clic
     selectElement.selectedIndex = 1;
-    expect(btnSaveChanges.style.display).toBe('none');
     selectElement.dispatchEvent(new Event('change'));
     expect(btnSaveChanges.style.display).toBe('block');
+    const textFieldPost = document.querySelector('#post1 > div > textarea');
+    textFieldPost.value = '';
+    textFieldPost.dispatchEvent(new Event('change'));
+    expect(btnSaveChanges.disabled).toBe(true);
   });
 });
+// FirebaseError: [code=unavailable]: Failed to get document because the client is offline.

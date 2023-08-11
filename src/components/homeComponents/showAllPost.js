@@ -102,9 +102,11 @@ export async function showPosts(sectionPost) {
         }
       });
       buttonSave.addEventListener('click', async () => {
-        await editPost(contentPost.id, postContent.value);
-        postContent.disabled = true;
-        buttonSave.style.display = 'none';
+        if (buttonSave.disabled === false) {
+          await editPost(contentPost.id, postContent.value);
+          postContent.disabled = true;
+          buttonSave.style.display = 'none';
+        }
       });
       textContentPost.appendChild(postContent);
       postMenu.append(msgOption, buttonEdit, buttonDelete);
