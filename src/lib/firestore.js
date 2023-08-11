@@ -60,7 +60,6 @@ export const listenToPosts = (updateFunction) => {
     snapshot.forEach((postData) => {
       const post = postData.data();
       post.id = postData.id;
-      console.log(postData);
       updatedPosts.push(post);
     });
     updateFunction(updatedPosts);

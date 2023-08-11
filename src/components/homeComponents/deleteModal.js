@@ -8,7 +8,6 @@ function hideModal(modal) {
   modal.style.display = 'none';
 }
 export function deletePostConfirmation(idPost) {
-  console.log(idPost);
   // Creamos la ventana modal y sus elementos en JavaScript
   const modal = document.createElement('div');
   modal.id = 'modal';

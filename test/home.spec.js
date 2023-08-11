@@ -94,6 +94,7 @@ describe('showAllPost', () => {
   beforeEach(() => {
     document.body.innerHTML = '';
     sectionPost = document.createElement('section');
+    document.body.append(sectionPost);
   });
   it('should add a like when heart icon is clicked', async () => {
     const addLikeMock = jest.spyOn(firestoreMock, 'addLike');
@@ -131,9 +132,8 @@ describe('showAllPost', () => {
     onSnapshotMock.mockImplementationOnce((q, callback) => {
       callback(mockSnapshot);
     }); */
-
     await showPosts(sectionPost);
-
+    await new Promise((resolve) => setTimeout(resolve, 0));
     // Simula el clic en el corazón
     const heartIcon = document.getElementById('toggle-heart-0');
     // await new Promise((resolve) => setTimeout(resolve, 0));
@@ -141,14 +141,14 @@ describe('showAllPost', () => {
 
     // Verifica que la función addLike se haya llamado
     // correctamente y que el corazón se haya marcado
-    expect(addLikeMock).toHaveBeenCalledWith(postWithLikes.id, 'test@example.com');
+    expect(addLikeMock).toHaveBeenCalledWith('post1', 'test@example.com');
     expect(heartIcon.checked).toBe(true);
 
     // Simula otro clic en el corazón
     heartIcon.click();
 
     // Verifica que la función deleteLike se haya llamado correctamente y que el corazón se haya desmarcado
-    expect(deleteLikeMock).toHaveBeenCalledWith(postWithLikes.id, 'test@example.com');
+    expect(deleteLikeMock).toHaveBeenCalledWith('post1', 'test@example.com');
     expect(heartIcon.checked).toBe(false);
   });
 });
