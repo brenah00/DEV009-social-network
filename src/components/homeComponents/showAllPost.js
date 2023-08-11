@@ -70,8 +70,10 @@ export async function showPosts(sectionPost) {
       buttonSave.style.display = 'none';
       msgOption.textContent = '...';
       buttonEdit.textContent = 'Editar';
+      buttonEdit.value = 'Editar';
       buttonDelete.textContent = 'Eliminar';
       msgPost.textContent = ' ';
+      postMenu.id = 'menuPost';
       dateInformation.textContent = post.date;
       countLikes.textContent = `${post.likes.length} me gusta`;
       // Obtenemos el nombre del usuario que publicó el post
@@ -82,6 +84,7 @@ export async function showPosts(sectionPost) {
       postMenu.addEventListener('change', async (event) => {
         const selectOption = event.target.options.selectedIndex;
         if (selectOption === 1) {
+          console.log('Esta clickeando opcion editar');
           postContent.disabled = false;
           buttonSave.style.display = 'block';
         }

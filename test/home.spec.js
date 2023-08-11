@@ -99,39 +99,21 @@ describe('showAllPost', () => {
   it('should add a like when heart icon is clicked', async () => {
     const addLikeMock = jest.spyOn(firestoreMock, 'addLike');
     const deleteLikeMock = jest.spyOn(firestoreMock, 'deleteLike');
-    // const onSnapshotMock = jest.spyOn(firebaseFirestore, 'onSnapshot');
     const listenToPostsMock = jest.spyOn(firestoreMock, 'listenToPosts');
     const getEmailMock = jest.spyOn(authMock, 'getEmail');
     getEmailMock.mockResolvedValue('test@example.com');
-    /* const postWithLikes = [{
-      id: 'post1',
-      contentPost: 'Liked post',
-      creator: 'other@example.com',
-      likes: [],
-    }]; */
     listenToPostsMock.mockImplementationOnce(async (updateFunction) => {
       const postWithLikes = [
         {
           id: 'post1',
           contentPost: 'Liked post',
-          creator: 'other@example.com',
+          creator: 'test@example.com',
           likes: [],
         },
       ];
       await updateFunction(postWithLikes);
     });
 
-    // listenToPostsMock.mockResolvedValue(postWithLikes);
-    /* const postWithLikes = {
-      id: 'post1',
-      contentPost: 'Liked post',
-      creator: 'other@example.com',
-      likes: [],
-    };
-    const mockSnapshot = [{ data: () => postWithLikes, id: '142sdda' }];
-    onSnapshotMock.mockImplementationOnce((q, callback) => {
-      callback(mockSnapshot);
-    }); */
     await showPosts(sectionPost);
     await new Promise((resolve) => setTimeout(resolve, 0));
     // Simula el clic en el corazón
@@ -139,16 +121,44 @@ describe('showAllPost', () => {
     // await new Promise((resolve) => setTimeout(resolve, 0));
     heartIcon.click();
 
-    // Verifica que la función addLike se haya llamado
-    // correctamente y que el corazón se haya marcado
+    /* Verifica que la función addLike se haya llamado
+    correctamente y que el corazón se haya marcado */
     expect(addLikeMock).toHaveBeenCalledWith('post1', 'test@example.com');
     expect(heartIcon.checked).toBe(true);
 
     // Simula otro clic en el corazón
     heartIcon.click();
 
-    // Verifica que la función deleteLike se haya llamado correctamente y que el corazón se haya desmarcado
+    /* Verifica que la función deleteLike se haya llamado
+    correctamente y que el corazón se haya desmarcado */
     expect(deleteLikeMock).toHaveBeenCalledWith('post1', 'test@example.com');
     expect(heartIcon.checked).toBe(false);
+  });
+  it('click the option Edit', async () => {
+    // const editPostMock = jest.spyOn(firestoreMock, 'editPost');
+    const listenToPostsMock = jest.spyOn(firestoreMock, 'listenToPosts');
+    const getEmailMock = jest.spyOn(authMock, 'getEmail');
+    getEmailMock.mockResolvedValue('test@example.com');
+    listenToPostsMock.mockImplementationOnce(async (updateFunction) => {
+      const postWithLikes = [
+        {
+          id: 'post1',
+          contentPost: 'Liked post',
+          creator: 'test@example.com',
+          likes: [],
+        },
+      ];
+      await updateFunction(postWithLikes);
+    });
+
+    await showPosts(sectionPost);
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    const btnSaveChanges = document.getElementById('btnSaveChanges');
+    const selectElement = document.getElementById('menuPost');
+    // Índice de la opción que deseas hacer clic
+    selectElement.selectedIndex = 1;
+    expect(btnSaveChanges.style.display).toBe('none');
+    selectElement.dispatchEvent(new Event('change'));
+    expect(btnSaveChanges.style.display).toBe('block');
   });
 });
