@@ -1,11 +1,9 @@
 import { deletePost } from '../../lib/firestore.js';
-// Función para mostrar la ventana modal específica para cada publicación
-export function showModal(modal) {
-  modal.style.display = 'block';
-}
+
 // Función para ocultar la ventana modal
-function hideModal(modal) {
-  modal.style.display = 'none';
+function hideModal() {
+  const modal = document.querySelector('#modal');
+  modal.remove();
 }
 export function deletePostConfirmation(idPost) {
   // Creamos la ventana modal y sus elementos en JavaScript
@@ -33,11 +31,18 @@ export function deletePostConfirmation(idPost) {
   // Evento para ejecutar la función de eliminación al hacer clic en el botón "OK"
   okButton.addEventListener('click', async () => {
     await deletePost(idPost);
-    hideModal(modal);
+    hideModal();
   });
   // Evento para cerrar la ventana modal al hacer clic en el botón "Cancelar"
   cancelButton.addEventListener('click', () => {
-    hideModal(modal);
+    hideModal();
   });
   return modal;
+}
+
+// Función para mostrar la ventana modal específica para cada publicación
+export function showModal(idPost) {
+  const deletePostModal = deletePostConfirmation(idPost);
+  document.body.appendChild(deletePostModal);
+  deletePostModal.style.display = 'block';
 }

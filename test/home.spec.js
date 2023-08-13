@@ -116,7 +116,7 @@ describe('showAllPost', () => {
     });
 
     await showPosts(sectionPost);
-    await new Promise((resolve) => setTimeout(resolve, 0));
+    // await new Promise((resolve) => setTimeout(resolve, 0));
     // Simula el clic en el corazón
     const heartIcon = document.getElementById('toggle-heart-0');
     // await new Promise((resolve) => setTimeout(resolve, 0));

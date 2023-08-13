@@ -58,7 +58,6 @@ export async function showPosts(sectionPost) {
       const dateInformation = document.createElement('p');
       const countLikes = document.createElement('label');
       const postMenu = document.createElement('select');
-      const deletePostModal = deletePostConfirmation(contentPost.id);
 
       contentPost.className = 'post-box';
       contentPost.id = post.id;
@@ -89,7 +88,7 @@ export async function showPosts(sectionPost) {
           buttonSave.style.display = 'block';
         }
         if (selectOption === 2) {
-          showModal(deletePostModal);
+          showModal(post.id);
         }
       });
       postContent.addEventListener('change', () => {
@@ -116,7 +115,6 @@ export async function showPosts(sectionPost) {
         contentPost.append(msgPost, postMenu);
       }
       sectionPost.appendChild(contentPost);
-      document.body.appendChild(deletePostModal);
     });
   };
   listenToPosts(updateFunction);
