@@ -1,6 +1,7 @@
 // import { addDoc, documentId } from 'firebase/firestore';
 import * as firebaseFirestore from 'firebase/firestore';
 import * as firebaseAuth from 'firebase/auth';
+import * as deleteModal from '../src/components/homeComponents/deleteModal.js';
 import * as firestoreMock from '../src/lib/firestore.js';
 import * as authMock from '../src/lib/authentication.js';
 import home from '../src/components/home.js';
@@ -40,6 +41,7 @@ jest.mock('firebase/firestore', () => ({
   addDoc: jest.fn(),
   collection: jest.fn(),
   onSnapshot: jest.fn(),
+  getDoc: jest.fn(),
 }));
 jest.mock('../src/lib/authentication.js', () => ({
   getEmail: jest.fn().mockResolvedValue('email@gmail.com'),
@@ -213,6 +215,39 @@ describe('showAllPost', () => {
     textFieldPost.value = '';
     textFieldPost.dispatchEvent(new Event('change'));
     expect(btnSaveChanges.disabled).toBe(true);
+  });
+  it('click the option Delete', async () => {
+    const showModalMock = jest.spyOn(deleteModal, 'showModal');
+    const listenToPostsMock = jest.spyOn(firestoreMock, 'listenToPosts');
+    const getEmailMock = jest.spyOn(authMock, 'getEmail');
+    getEmailMock.mockResolvedValue('test@example.com');
+    listenToPostsMock.mockImplementationOnce(async (updateFunction) => {
+      const postWithLikes = [
+        {
+          id: 'post1',
+          contentPost: 'Liked post',
+          creator: 'test@example.com',
+          date: '9/8/2023, 9:51:52',
+          likes: ['test@example.com'],
+        },
+        {
+          id: 'post2',
+          contentPost: 'Liked post',
+          creator: 'anothertest@example.com',
+          date: '10/8/2023, 15:50:06',
+          likes: [],
+        },
+      ];
+      await updateFunction(postWithLikes);
+    });
+
+    await showPosts(sectionPost);
+    // await new Promise((resolve) => setTimeout(resolve, 0));
+    const selectElement = document.getElementById('menuPost');
+    // Índice de la opción que deseas hacer clic
+    selectElement.selectedIndex = 2;
+    selectElement.dispatchEvent(new Event('change'));
+    expect(showModalMock).toHaveBeenCalledWith('post1');
   });
 });
 // FirebaseError: [code=unavailable]: Failed to get document because the client is offline.

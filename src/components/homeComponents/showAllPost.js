@@ -1,5 +1,5 @@
 import { getEmail } from '../../lib/authentication.js';
-import { showModal, deletePostConfirmation } from './deleteModal.js';
+import { showModal } from './deleteModal.js';
 import {
   showUserName, listenToPosts, editPost, addLike, deleteLike,
 } from '../../lib/firestore.js';
