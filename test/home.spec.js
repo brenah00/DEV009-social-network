@@ -1,40 +1,9 @@
-// import { addDoc, documentId } from 'firebase/firestore';
-import * as firebaseFirestore from 'firebase/firestore';
-import * as firebaseAuth from 'firebase/auth';
 import * as deleteModal from '../src/components/homeComponents/deleteModal.js';
 import * as firestoreMock from '../src/lib/firestore.js';
 import * as authMock from '../src/lib/authentication.js';
 import home from '../src/components/home.js';
 import { showPosts } from '../src/components/homeComponents/showAllPost.js';
-//import { newPost } from '../src/lib/firestore.js';
 
-/* jest.mock('../src/lib/authentication.js', () => ({
-  logoutUser: jest.fn(),
-  // getEmail: jest.fn.mockResolvedValue('email@gmail.com'),
-}));
-jest.mock('firebase/firestore', () => ({
-  getDoc: jest.fn(),
-}));
-jest.mock('../src/lib/firestore.js', () => ({
-  showUserName: jest.fn().mockResolvedValue('ejemplo'),
-}));
-describe('home', () => {
-  const navigateTo = jest.fn();
-
-  beforeEach(() => {
-    // jest.clearAllMocks();
-    // Configurar el DOM y los elementos necesarios antes de cada prueba
-    document.body.innerHTML = ''; // Limpiar el contenido del body antes de cada prueba
-    document.body.append(home(navigateTo));
-  });
-
-  /* it('El botón de cerrar sesión me lleve al Login', () => {
-    const btn = document.getElementById('btnLogout');
-    btn.click();
-    // expect(logoutUser).toHaveBeenCalled();
-    expect(navigateTo).toHaveBeenCalledWith('/');
-  });
-}); */
 jest.mock('firebase/firestore', () => ({
   // getDoc: jest.fn(),
   getFirestore: jest.fn(),
@@ -84,11 +53,13 @@ describe('home', () => {
     const btn = document.getElementById('btnLogout');
     btn.click();
     // expect(logoutUser).toHaveBeenCalled();
+    // eslint-disable-next-line no-promise-executor-return
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(navigateTo).toHaveBeenCalledWith('/');
   });
   it('Onsnapshot fn', async () => {
     const listenToPostsMock = jest.spyOn(firestoreMock, 'listenToPosts');
+    // eslint-disable-next-line no-promise-executor-return
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(listenToPostsMock).toHaveBeenCalled();
   });
@@ -308,6 +279,7 @@ describe('showAllPost', () => {
     expect(modal).toBeTruthy();
     const okButton = document.querySelector('#okButton');
     okButton.click();
+    // eslint-disable-next-line no-promise-executor-return
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(deletePostsMock).toHaveBeenCalledWith('post1');
     const modalDeleted = document.querySelector('#modal');

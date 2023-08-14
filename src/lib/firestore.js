@@ -3,10 +3,8 @@ import {
   doc,
   addDoc,
   setDoc,
-  getDocs,
   getDoc,
   collection,
-  orderBy,
   updateDoc,
   deleteDoc,
   onSnapshot,
@@ -14,7 +12,7 @@ import {
 import { app } from './index.js';
 
 // Initialize firestore
-const db = getFirestore(app);
+export const db = getFirestore(app);
 
 export const saveUser = async (
   userName,
@@ -66,23 +64,6 @@ export const listenToPosts = (updateFunction) => {
   });
   return unsubscribe;
 };
-/* export const showPost = async () => {
-  const allPost = [];
-  try {
-    const querySnapshot = await getDocs(
-      collection(db, 'posts'),
-      orderBy('date', 'desc'),
-    );
-    querySnapshot.forEach((post) => {
-      const copyPost = post.data();
-      copyPost.id = post.id;
-      allPost.push(copyPost);
-    });
-    return allPost;
-  } catch (error) {
-    return error;
-  }
-}; */
 
 export const editPost = async (id, newText) => {
   const postReference = doc(db, 'posts', id);
