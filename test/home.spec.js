@@ -54,6 +54,7 @@ jest.mock('../src/lib/firestore', () => ({
   addLike: jest.fn(),
   deleteLike: jest.fn(),
   editPost: jest.fn(),
+  deletePost: jest.fn(),
 }));
 // jest.mock('../src/lib/firestore');
 describe('home', () => {
@@ -248,6 +249,69 @@ describe('showAllPost', () => {
     selectElement.selectedIndex = 2;
     selectElement.dispatchEvent(new Event('change'));
     expect(showModalMock).toHaveBeenCalledWith('post1');
+  });
+  it('El modal debe eliminarse del cuerpo del documento al dar clic en cancelar', async () => {
+    const listenToPostsMock = jest.spyOn(firestoreMock, 'listenToPosts');
+    const getEmailMock = jest.spyOn(authMock, 'getEmail');
+    getEmailMock.mockResolvedValue('test@example.com');
+    listenToPostsMock.mockImplementationOnce(async (updateFunction) => {
+      const postWithLikes = [
+        {
+          id: 'post1',
+          contentPost: 'Liked post',
+          creator: 'test@example.com',
+          date: '9/8/2023, 9:51:52',
+          likes: ['test@example.com'],
+        },
+      ];
+      await updateFunction(postWithLikes);
+    });
+
+    await showPosts(sectionPost);
+    // await new Promise((resolve) => setTimeout(resolve, 0));
+    const selectElement = document.getElementById('menuPost');
+    // Índice de la opción que deseas hacer clic
+    selectElement.selectedIndex = 2;
+    selectElement.dispatchEvent(new Event('change'));
+    const modal = document.querySelector('#modal');
+    expect(modal).toBeTruthy();
+    const cancelButton = document.querySelector('#cancelButton');
+    cancelButton.click();
+    const modalDeleted = document.querySelector('#modal');
+    expect(modalDeleted).toBe(null);
+  });
+  it('Se debe llamar a la funcion deletePost y el modal debe eliminarse del cuerpo del documento', async () => {
+    const deletePostsMock = jest.spyOn(firestoreMock, 'deletePost');
+    const listenToPostsMock = jest.spyOn(firestoreMock, 'listenToPosts');
+    const getEmailMock = jest.spyOn(authMock, 'getEmail');
+    getEmailMock.mockResolvedValue('test@example.com');
+    listenToPostsMock.mockImplementationOnce(async (updateFunction) => {
+      const postWithLikes = [
+        {
+          id: 'post1',
+          contentPost: 'Liked post',
+          creator: 'test@example.com',
+          date: '9/8/2023, 9:51:52',
+          likes: ['test@example.com'],
+        },
+      ];
+      await updateFunction(postWithLikes);
+    });
+
+    await showPosts(sectionPost);
+    // await new Promise((resolve) => setTimeout(resolve, 0));
+    const selectElement = document.getElementById('menuPost');
+    // Índice de la opción que deseas hacer clic
+    selectElement.selectedIndex = 2;
+    selectElement.dispatchEvent(new Event('change'));
+    const modal = document.querySelector('#modal');
+    expect(modal).toBeTruthy();
+    const okButton = document.querySelector('#okButton');
+    okButton.click();
+    await new Promise((resolve) => setTimeout(resolve, 0));
+    expect(deletePostsMock).toHaveBeenCalledWith('post1');
+    const modalDeleted = document.querySelector('#modal');
+    expect(modalDeleted).toBe(null);
   });
 });
 // FirebaseError: [code=unavailable]: Failed to get document because the client is offline.

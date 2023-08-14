@@ -1,7 +1,7 @@
 import { deletePost } from '../../lib/firestore.js';
 
 // Función para ocultar la ventana modal
-function hideModal() {
+export function hideModal() {
   const modal = document.querySelector('#modal');
   modal.remove();
 }

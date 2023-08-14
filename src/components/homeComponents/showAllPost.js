@@ -83,7 +83,6 @@ export async function showPosts(sectionPost) {
       postMenu.addEventListener('change', async (event) => {
         const selectOption = event.target.options.selectedIndex;
         if (selectOption === 1) {
-          console.log('Esta clickeando opcion editar');
           postContent.disabled = false;
           buttonSave.style.display = 'block';
         }
