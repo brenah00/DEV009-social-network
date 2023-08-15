@@ -1,6 +1,6 @@
 import * as firebaseFirestore from 'firebase/firestore';
 import {
-  editPost, showUserName, db, deletePost, addLike, deleteLike, listenToPosts, newPost,
+  editPost, showUserName, db, deletePost, addLike, deleteLike, listenToPosts,
 } from '../src/lib/firestore';
 
 jest.mock('firebase/firestore');
