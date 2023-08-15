@@ -63,13 +63,12 @@ export const loginValidate = async () => new Promise((resolve) => {
   });
 });
 export const getEmail = async () => new Promise((resolve) => {
-  const unsubscribe = auth.onAuthStateChanged((user) => {
-    unsubscribe(); // Dejamos de escuchar cambios de autenticación una vez que tenemos el resultado
+  onAuthStateChanged(auth, (user) => {
     if (user) {
       const userEmail = user.email;
-      resolve(userEmail); // Resolvemos la promesa con el correo electrónico
+      resolve(userEmail);
     } else {
-      resolve(null); // No hay usuario autenticado, resolvemos la promesa con null
+      resolve(null);
     }
   });
 });

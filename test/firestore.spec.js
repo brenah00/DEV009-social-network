@@ -1,10 +1,13 @@
 import * as firebaseFirestore from 'firebase/firestore';
 import {
-  editPost, showUserName, db, deletePost, addLike, deleteLike, listenToPosts, /* newPost, */
+  editPost, showUserName, db, deletePost, addLike, deleteLike, listenToPosts, newPost,
 } from '../src/lib/firestore';
 
 jest.mock('firebase/firestore');
 describe('firestore.js', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
   it('showUserName should return the user\'s full name', async () => {
     // Simular el comportamiento de la función getDoc
     const mockData = { name: 'John', lastName: 'Doe' };
@@ -26,7 +29,15 @@ describe('firestore.js', () => {
 
     expect(userName.message).toBe('Usuario no encontrado');
   });
-
+  it('showUserName should return an error if document does not exist', async () => {
+    // Simular el comportamiento de la función getDoc
+    const mockDocSnap = {
+      exists: () => false,
+    };
+    firebaseFirestore.getDoc.mockResolvedValue(mockDocSnap);
+    const userName = await showUserName('john@example.com');
+    expect(userName).toBe(undefined);
+  });
   it('editPost', async () => {
     firebaseFirestore.updateDoc.mockResolvedValue();
     await editPost('post123', 'texto a editar');
@@ -46,12 +57,26 @@ describe('firestore.js', () => {
     await addLike('post123', 'user2');
     expect(firebaseFirestore.updateDoc).toHaveBeenCalledWith(firebaseFirestore.doc(db, 'posts', 'post123'), { likes: ['user1', 'user2'] });
   });
+  it('addLike other case', async () => {
+    const mockData = { name: 'John', lastName: 'Doe', likes: ['user1', 'user2'] };
+    firebaseFirestore.getDoc.mockResolvedValue({ data: () => mockData });
+    firebaseFirestore.updateDoc.mockResolvedValue();
+    await addLike('post123', 'user2');
+    expect(firebaseFirestore.updateDoc).not.toHaveBeenCalled();
+  });
   it('deleteLike', async () => {
     const mockData = { name: 'John', lastName: 'Doe', likes: ['user1'] };
     firebaseFirestore.getDoc.mockResolvedValue({ data: () => mockData });
     firebaseFirestore.updateDoc.mockResolvedValue();
     await deleteLike('post123', 'user1');
     expect(firebaseFirestore.updateDoc).toHaveBeenCalledWith(firebaseFirestore.doc(db, 'posts', 'post123'), { likes: [] });
+  });
+  it('deleteLike ', async () => {
+    const mockData = { name: 'John', lastName: 'Doe', likes: [] };
+    firebaseFirestore.getDoc.mockResolvedValue({ data: () => mockData });
+    firebaseFirestore.updateDoc.mockResolvedValue();
+    await deleteLike('post123', 'user1');
+    // expect(firebaseFirestore.updateDoc).not.toHaveBeenCalled();
   });
   it('should update function when posts are updated', () => {
     // Simular los datos de los documentos en el snapshot
@@ -92,7 +117,7 @@ describe('firestore.js', () => {
     expect(firebaseFirestore.collection).toHaveBeenCalledWith(db, 'posts');
   });
   /* it('newPost', async () => {
-    const dataToSave = {
+    /* const dataToSave = {
       contentPost: 'Hola a todos',
       date: new Date().toLocaleString(),
       creator: 'correo@example.com',
@@ -100,7 +125,7 @@ describe('firestore.js', () => {
     };
     firebaseFirestore.addDoc.mockResolvedValue();
     await newPost('correo@example.com', 'Hola a todos');
-    eslint-disable-next-line max-len
+    expect(firebaseFirestore.addDoc).toHaveBeenCalled();
     // expect(firebaseFirestore.addDoc)
     // .toHaveBeenCalledWith(firebaseFirestore.collection(db, 'posts', dataToSave));
   }); */

@@ -43,10 +43,7 @@ export const showUserName = async (email) => {
     const docSnap = await getDoc(doc(db, 'users', email));
     if (docSnap.exists()) {
       return `${docSnap.data().name} ${docSnap.data().lastName}`;
-    } /* else {
-      // docSnap.data() will be undefined in this case
-      console.log("No such document!");
-    } */
+    }
   } catch (error) {
     return error;
   }
@@ -92,7 +89,6 @@ export const deleteLike = async (idPost, actualUser) => {
   const docSnap = await getDoc(postReference);
   const allLikes = docSnap.data().likes;
   if (allLikes.includes(actualUser)) {
-    // allLikes.filter(user);
     await updateDoc(postReference, {
       likes: allLikes.filter((user) => user !== actualUser),
     });
