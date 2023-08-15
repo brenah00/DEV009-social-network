@@ -73,9 +73,11 @@ export async function showPosts(sectionPost) {
       buttonDelete.textContent = 'Eliminar';
       msgPost.textContent = ' ';
       postMenu.id = 'menuPost';
+      postMenu.className = 'post-menu';
       dateInformation.className = 'datePost';
       dateInformation.textContent = post.date;
       countLikes.textContent = `${post.likes.length} me gusta`;
+      countLikes.className = 'show-likes';
       // Obtenemos el nombre del usuario que publicó el post
       showUserName(post.creator).then((userName) => {
         creator.textContent = userName;
@@ -112,6 +114,7 @@ export async function showPosts(sectionPost) {
       // eslint-disable-next-line max-len
       contentPost.append(creator, textContentPost, buttonSave, likeIcon, countLikes, dateInformation);
       if (userActual === post.creator) {
+        contentPost.className = 'post-box-owner';
         contentPost.append(msgPost, postMenu);
       }
       sectionPost.appendChild(contentPost);

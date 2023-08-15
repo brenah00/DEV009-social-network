@@ -51,6 +51,7 @@ h2 {
 
 h3 {
     margin-left: 5%;
+    grid-area: creator;
 }
 button {
     border-radius: 20px;
@@ -134,6 +135,22 @@ button img {
     background-color: rgba(255, 255, 255, 0.4);
     margin: 10px;
     border-radius: 20px;
+    display: grid;
+    grid-template: 
+        'creator creator creator creator' auto
+        'textPost textPost textPost textPost' auto
+        'likeIcon likes ...... dateInformation' auto/ 10% 30% 30% 30%;
+}
+.post-box-owner{
+    width: 90%;
+    background-color: rgba(255, 255, 255, 0.4);
+    margin: 10px;
+    border-radius: 20px;
+    display: grid;
+    grid-template: 
+        'creator creator creator menuPost' auto
+        'textPost textPost textPost textPost' auto
+        'likeIcon likes ...... dateInformation' auto/ 10% 30% 30% 30%;
 }
 #btnLogout{
     margin: 50px 0 0 20px;
@@ -141,7 +158,19 @@ button img {
 }
 .text-box{
     background: #FFFFFF;
+    grid-area: textPost ;
 }
+.show-likes{
+    grid-area: likes;
+
+}
+.datePost {
+    grid-area: dateInformation ;
+}
+.post-menu{
+    grid-area: menuPost;
+}
+
 .text-box > textarea{
     background: #FFFFFF;
     width: 90%;
@@ -159,6 +188,7 @@ article {
 .toggle-heart {
   position: absolute;
   left: -100vw;
+  grid-area: likeIcon;
 }
 
 .toggle-heart-label {
@@ -170,9 +200,7 @@ article {
     font-size: 1.5em;
     cursor: pointer;
   }
-  .datePost{
-    margin-left: 60%;
-  }
+
   
 .toggle-heart:checked + .toggle-heart-label {
   color: #5E17EB;
@@ -236,12 +264,7 @@ article {
         align-items: center;
 
     }
-    .post-box{
-        width: 90%;
-        background-color: rgba(255, 255, 255, 0.4);
-        margin: 10px;
-        border-radius: 20px;
-    }
+
     .text-box{
         background: #FFFFFF;
     }
@@ -300,9 +323,21 @@ article {
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     }
 
-    .datePost{
-        margin-left: 50%;
-      }
+    .post-box{
+        width: 100%;
+        grid-template: 
+            'creator creator creator creator creator' auto
+            'textPost textPost textPost textPost textPost' auto
+            'likeIcon likes ...... dateInformation dateInformation' auto/ 10% 30% 10% 20% 30%;
+    }
+    .post-box-owner{
+        width: 100%;
+        grid-template: 
+        'creator creator creator creator menuPost' auto
+        'textPost textPost textPost textPost textPost' auto
+        'likeIcon likes ...... dateInformation dateInformation' auto/ 10% 30% 10% 20% 30%;
+    }
+
 }
 .modal {
     display: none;
