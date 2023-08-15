@@ -40,8 +40,8 @@ export async function showPosts(sectionPost) {
   const userActual = await getEmail();
   const updateFunction = (updatedPosts) => {
     const sortedPosts = updatedPosts.sort((a, b) => {
-      const dateA = new Date(a.date);
-      const dateB = new Date(b.date);
+      const dateA = new Date(a.date.replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$2-$1'));
+      const dateB = new Date(b.date.replace(/(\d+)\/(\d+)\/(\d+)/, '$3-$2-$1'));
       return dateB - dateA;
     });
     sectionPost.innerHTML = '';
@@ -73,6 +73,7 @@ export async function showPosts(sectionPost) {
       buttonDelete.textContent = 'Eliminar';
       msgPost.textContent = ' ';
       postMenu.id = 'menuPost';
+      dateInformation.className = 'datePost';
       dateInformation.textContent = post.date;
       countLikes.textContent = `${post.likes.length} me gusta`;
       // Obtenemos el nombre del usuario que publicó el post

@@ -49,6 +49,9 @@ h2 {
 
 }
 
+h3 {
+    margin-left: 5%;
+}
 button {
     border-radius: 20px;
     height: 40px;
@@ -159,11 +162,16 @@ article {
 }
 
 .toggle-heart-label {
+    display: inline-block;
+    vertical-align: top;
     position: relative;
     shape-margin: 2;
     color: rgba(94, 23, 235, .5);
     font-size: 1.5em;
     cursor: pointer;
+  }
+  .datePost{
+    margin-left: 60%;
   }
   
 .toggle-heart:checked + .toggle-heart-label {
@@ -291,6 +299,10 @@ article {
       border-radius: 8px;
       box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
     }
+
+    .datePost{
+        margin-left: 50%;
+      }
 }
 .modal {
     display: none;

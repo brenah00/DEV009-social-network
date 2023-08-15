@@ -46,7 +46,7 @@ describe('home', () => {
     buttonPublish.click();
     // eslint-disable-next-line no-promise-executor-return
     await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(newPostMock).toHaveBeenCalledWith('email@gmail.com', textPost.value);
+    expect(newPostMock).toHaveBeenCalledWith('email@gmail.com', 'escuchen esto');
   });
   it('El botón de cerrar sesión me lleve al Login', async () => {
     // firebaseAuth.signOut.mockResolvedValue(1234);

@@ -41,6 +41,7 @@ function home(navigateTo) {
     } else {
       messagePublish.textContent = '';
       await newPost(await getEmail(), postContent);
+      textPost.value = '';
     }
   });
 
