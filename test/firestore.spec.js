@@ -1,6 +1,6 @@
 import * as firebaseFirestore from 'firebase/firestore';
 import {
-  editPost, showUserName, db, deletePost, addLike, deleteLike,
+  editPost, showUserName, db, deletePost, addLike, deleteLike, listenToPosts, /* newPost, */
 } from '../src/lib/firestore';
 
 jest.mock('firebase/firestore');
@@ -18,6 +18,13 @@ describe('firestore.js', () => {
     const userName = await showUserName('john@example.com');
 
     expect(userName).toBe('John Doe');
+  });
+  it('showUserName should return an error', async () => {
+    firebaseFirestore.getDoc.mockRejectedValue(new Error('Usuario no encontrado'));
+
+    const userName = await showUserName('john@example.com');
+
+    expect(userName.message).toBe('Usuario no encontrado');
   });
 
   it('editPost', async () => {
@@ -46,4 +53,55 @@ describe('firestore.js', () => {
     await deleteLike('post123', 'user1');
     expect(firebaseFirestore.updateDoc).toHaveBeenCalledWith(firebaseFirestore.doc(db, 'posts', 'post123'), { likes: [] });
   });
+  it('should update function when posts are updated', () => {
+    // Simular los datos de los documentos en el snapshot
+    const mockPostData = [
+      { id: 'post1', data: () => ({ title: 'Post 1' }) },
+      { id: 'post2', data: () => ({ title: 'Post 2' }) },
+    ];
+
+    // Simular la función de actualización
+    const updateFunction = jest.fn();
+
+    // Simular la función onSnapshot para invocar el callback con los datos falsos
+    firebaseFirestore.onSnapshot.mockImplementationOnce((query, callback) => {
+      const mockSnapshot = {
+        forEach: (forEachCallback) => {
+          mockPostData.forEach((postData) => {
+            forEachCallback(postData);
+          });
+        },
+      };
+      callback(mockSnapshot);
+      return jest.fn(); // Simular función de unsubscribe
+    });
+
+    // Llamar a la función listenToPosts con la función de actualización simulada
+    const unsubscribe = listenToPosts(updateFunction);
+
+    // Verificar que la función de actualización se llamó con los datos falsos
+    expect(updateFunction).toHaveBeenCalledWith([
+      { id: 'post1', title: 'Post 1' },
+      { id: 'post2', title: 'Post 2' },
+    ]);
+
+    // Llamar a la función de unsubscribe
+    unsubscribe();
+
+    // Verificar que onSnapshot se llamó con la consulta correcta
+    expect(firebaseFirestore.collection).toHaveBeenCalledWith(db, 'posts');
+  });
+  /* it('newPost', async () => {
+    const dataToSave = {
+      contentPost: 'Hola a todos',
+      date: new Date().toLocaleString(),
+      creator: 'correo@example.com',
+      likes: [],
+    };
+    firebaseFirestore.addDoc.mockResolvedValue();
+    await newPost('correo@example.com', 'Hola a todos');
+    eslint-disable-next-line max-len
+    // expect(firebaseFirestore.addDoc)
+    // .toHaveBeenCalledWith(firebaseFirestore.collection(db, 'posts', dataToSave));
+  }); */
 });

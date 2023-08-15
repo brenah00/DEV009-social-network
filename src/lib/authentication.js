@@ -5,6 +5,7 @@ import {
   signInWithPopup,
   signInWithEmailAndPassword,
   signOut,
+  onAuthStateChanged,
 } from 'firebase/auth';
 import { app } from './index.js';
 
@@ -53,7 +54,7 @@ export const logoutUser = async () => {
   });
 };
 export const loginValidate = async () => new Promise((resolve) => {
-  auth.onAuthStateChanged((user) => {
+  onAuthStateChanged(auth, (user) => {
     if (user) {
       resolve(true);
     } else {
