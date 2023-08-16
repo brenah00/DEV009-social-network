@@ -11,12 +11,12 @@ function createLike(post, index, userActual) {
 
   const checkbox = document.createElement('input');
   checkbox.setAttribute('type', 'checkbox');
-  checkbox.className = 'toggle-heart';
-  checkbox.setAttribute('id', `toggle-heart-${index}`);
+  checkbox.className = 'like';
+  checkbox.setAttribute('id', `like-${index}`);
 
   const label = document.createElement('label');
-  label.className = 'toggle-heart-label';
-  label.setAttribute('for', `toggle-heart-${index}`);
+  label.className = 'like-icon';
+  label.setAttribute('for', `like-${index}`);
   label.setAttribute('aria-label', 'like');
   label.textContent = '❤';
 
@@ -83,6 +83,7 @@ export async function showPosts(sectionPost) {
         creator.textContent = userName;
       });
       const likeIcon = createLike(post, index, userActual);
+      likeIcon.className = 'like-icon-checkbox';
       postMenu.addEventListener('change', async (event) => {
         const selectOption = event.target.options.selectedIndex;
         if (selectOption === 1) {

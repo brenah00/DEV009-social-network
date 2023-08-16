@@ -125,10 +125,14 @@ button img {
 }
 #btnSaveChanges{
     margin: 5px 0 0 25%;
+    grid-area: btnSave;
 }
 #contentHome > img {
     width: 100%;
     padding: 0%;
+}
+.like-icon-checkbox{
+    grid-area: likeIcon;
 }
 .post-box{
     width: 90%;
@@ -150,6 +154,7 @@ button img {
     grid-template: 
         'creator creator creator menuPost' auto
         'textPost textPost textPost textPost' auto
+        'btnSave  btnSave btnSave btnSave' auto
         'likeIcon likes ...... dateInformation' auto/ 10% 30% 30% 30%;
 }
 #btnLogout{
@@ -185,13 +190,13 @@ button img {
 article {
     align-items: center;
 }
-.toggle-heart {
+.like {
   position: absolute;
   left: -100vw;
-  grid-area: likeIcon;
+  margin-left: 5%;
 }
 
-.toggle-heart-label {
+.like-icon {
     display: inline-block;
     vertical-align: top;
     position: relative;
@@ -202,7 +207,7 @@ article {
   }
 
   
-.toggle-heart:checked + .toggle-heart-label {
+.like:checked + .like-icon {
   color: #5E17EB;
 }
 
@@ -335,6 +340,7 @@ article {
         grid-template: 
         'creator creator creator creator menuPost' auto
         'textPost textPost textPost textPost textPost' auto
+        'btnSave btnSave btnSave btnSave btnSave' auto
         'likeIcon likes ...... dateInformation dateInformation' auto/ 10% 30% 10% 20% 30%;
     }
 
