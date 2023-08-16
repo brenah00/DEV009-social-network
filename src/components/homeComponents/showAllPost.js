@@ -93,6 +93,7 @@ export async function showPosts(sectionPost) {
         if (selectOption === 2) {
           showModal(post.id);
         }
+        postMenu.selectedIndex = 0;
       });
       postContent.addEventListener('change', () => {
         if (postContent.value.length > 0) {
