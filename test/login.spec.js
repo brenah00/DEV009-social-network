@@ -94,7 +94,7 @@ describe('login', () => {
     const message = document.getElementById('errorMessage');
     // eslint-disable-next-line no-promise-executor-return
     await new Promise((resolve) => setTimeout(resolve, 0));
-    expect(message.textContent).toBe('La contraseña que has introducido es incorrecta. ¿Has olvidado la contraseña?');
+    expect(message.textContent).toBe('La contraseña que has introducido es incorrecta.');
   });
   it('Nos lleva a home', async () => {
     authentication.signInWithEmailAndPassword.mockResolvedValue({

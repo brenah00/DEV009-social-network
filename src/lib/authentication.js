@@ -46,9 +46,11 @@ export const loginUser = async (email, password) => {
 
 export const logoutUser = async () => {
   signOut(auth).then(() => {
+    // eslint-disable-next-line no-console
     console.log('sesion cerrada');
     // Sign-out successful.
   }).catch((error) => {
+    // eslint-disable-next-line no-console
     console.log(error);
     // An error happened.
   });

@@ -94,7 +94,7 @@ Y la siguiente **Definición de terminado** :
 * Validación para corroborar que el usuario está seguro de esa opción.
 * Agregar acción que elimine de la BD esta publicación.
 
-  ### -Historia 5:
+### -Historia 5:
 
   Yo como usuario: 
   Quiero ver una sección de likes.

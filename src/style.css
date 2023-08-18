@@ -96,6 +96,17 @@ button img {
     width: 50%;
     justify-content: center;
 }
+#activeSection{
+    width: 80%;
+    text-align: center;
+}
+
+#checkStorage{
+    width: 3%;
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 10px 0 0;
+}
 #textPost{
     width: 50%;
 }
@@ -302,6 +313,10 @@ article {
         align-items: center;
 
     }
+
+    #checkStorage{
+    width: 7%;
+    } 
 
     .text-box{
         background: #FFFFFF;

@@ -38,7 +38,6 @@ function navigateTo(hash) {
   }
 }
 window.onpopstate = () => {
-  console.log('hubo un cambio)');
   navigateTo(window.location.pathname);
 };
 navigateTo(window.location.pathname || defaultRoute);

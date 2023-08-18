@@ -13,6 +13,7 @@ function createLogin(inputEmailUser, inputPassword, message, buttonRegister, but
   const logo = document.createElement('img');
   const logoGoogle = document.createElement('img');
   const title = document.createElement('h2');
+  const activeSection = document.createElement('div');
   const permanentSesion = document.createElement('label');
   message.id = 'errorMessage';
   message.textContent = '';
@@ -31,20 +32,22 @@ function createLogin(inputEmailUser, inputPassword, message, buttonRegister, but
   buttonLogin.id = 'btnLogin';
   buttonGoogle.id = 'btnGoogle';
   buttonGoogle.textContent = 'Iniciar con Google';
+  activeSection.id = 'activeSection';
+  inputStorage.id = 'checkStorage';
   logoGoogle.src = 'https://cdn-icons-png.flaticon.com/512/300/300221.png';
   logo.src = 'https://i.postimg.cc/h4yFZp0F/MyMusic1.png';
   inputStorage.setAttribute('type', 'checkbox');
-  permanentSesion.textContent = 'Desea mantener iniciada la sesión?';
+  permanentSesion.textContent = 'Mantener la sesión iniciada';
 
   buttonGoogle.append(
     logoGoogle,
   );
+  activeSection.append(inputStorage, permanentSesion);
   elementDiv.append(
     title,
     inputEmailUser,
     inputPassword,
-    inputStorage,
-    permanentSesion,
+    activeSection,
     message,
     buttonLogin,
     buttonRegister,
@@ -90,7 +93,7 @@ function login(navigateTo) {
             message.textContent = 'El correo electrónico que has introducido no está conectado a una cuenta.';
             break;
           case 'Firebase: Error (auth/wrong-password).':
-            message.textContent = 'La contraseña que has introducido es incorrecta. ¿Has olvidado la contraseña?';
+            message.textContent = 'La contraseña que has introducido es incorrecta.';
             break;
           default:
             if (inputStorage.checked === true) {
