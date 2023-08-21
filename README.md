@@ -132,12 +132,15 @@ Y la siguiente **Definición de terminado** :
 ![Prototipo-de-Alta-Fidelidad-desktop](Img/image-5.png)
 
 ## 4. Implementación
- Este proyecto fue desarrollado con las siguientes herramientas :
+Este proyecto fue desplegado adecuamente y se puede ver el resultado final aqui : [MYMUSIC](https://social-network-4c6aa.web.app).
+
+Fue desarrollado con las siguientes herramientas :
 * **Firebase** - Donde fue creada la conexión con nuestra web mediante sus servicios de:
    * *Authentication:* Se implementó para que los usuarios puedan acceder a la web mediante correo electrónico y contraseña , o bien mediante una cuenta de google.
    * *Firestore:* Se implementó para tener una base de datos en la cual se pueda organizar la información de nuestra red social como son los usuarios y las publicaciones.
 * **Javascrip:** Utilizado para el desarrollo de la lógica y manejo del DOM dinámicamente.
 * **CSS:** Fue aplicado al diseño del sitio web, permitiéndonos organizar todos los elementos visuales presentes en él, como botones, secciones, áreas de texto, y demás.
  Siguiendo los fundamentos del  *responsive design* , que se ajusta a diferentes dispositivos (Desktop y mobile) y tamaños de pantalla.
+
 
 
