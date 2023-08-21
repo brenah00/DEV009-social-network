@@ -13,6 +13,7 @@ jest.mock('firebase/firestore', () => ({
   getDoc: jest.fn(),
 }));
 jest.mock('../src/lib/authentication.js', () => ({
+  loginValidate: jest.fn().mockResolvedValue(true),
   getEmail: jest.fn().mockResolvedValue('email@gmail.com'),
   logoutUser: jest.fn(),
 }));
