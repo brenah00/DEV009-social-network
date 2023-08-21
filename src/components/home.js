@@ -1,33 +1,40 @@
-import { getEmail, logoutUser } from '../lib/authentication.js';
+import { getEmail, logoutUser, loginValidate } from '../lib/authentication.js';
 import { showUserName, newPost } from '../lib/firestore.js';
 import { showPosts } from './homeComponents/showAllPost.js';
 
 async function showName(user) {
   user.innerHTML = await showUserName(await getEmail());
 }
-
+async function userValidation(navigateTo) {
+  if (await loginValidate() === false) {
+    navigateTo('/');
+  }
+}
 function home(navigateTo) {
+  userValidation(navigateTo);
   const sectionHome = document.createElement('section');
-  sectionHome.id = 'contentHome';
   const textPost = document.createElement('textarea');
-  textPost.id = 'textPost';
   const sectionAllPosts = document.createElement('section');
-  sectionAllPosts.id = 'section-all-posts';
   const logo = document.createElement('img');
   const user = document.createElement('p');
-  logo.src = 'https://i.postimg.cc/bJVfLCbz/My-Music-8.png';
   const buttonPublish = document.createElement('button');
+  const messagePublish = document.createElement('p');
+  const buttonLogout = document.createElement('button');
+  const sectionPost = document.createElement('section');
+
+  sectionHome.id = 'contentHome';
+  textPost.id = 'textPost';
+  sectionAllPosts.id = 'section-all-posts';
+  logo.src = 'https://i.postimg.cc/bJVfLCbz/My-Music-8.png';
   buttonPublish.id = 'btnPublish';
   buttonPublish.textContent = 'Publicar';
-  const messagePublish = document.createElement('p');
   messagePublish.id = 'msgPublish';
-  const buttonLogout = document.createElement('button');
   buttonLogout.textContent = 'Cerrar sesión';
   buttonLogout.id = 'btnLogout';
   textPost.placeholder = 'Que estás escuchando?';
-  const sectionPost = document.createElement('section');
   sectionPost.className = 'post-section';
   showName(user);
+
   buttonLogout.addEventListener('click', () => {
     localStorage.clear();
     logoutUser();
