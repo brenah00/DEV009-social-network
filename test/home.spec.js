@@ -1,11 +1,10 @@
-import * as deleteModal from '../src/components/homeComponents/deleteModal.js';
+// import * as deleteModal from '../src/components/homeComponents/deleteModal.js';
 import * as firestoreMock from '../src/lib/firestore.js';
 import * as authMock from '../src/lib/authentication.js';
 import home from '../src/components/home.js';
 import { showPosts } from '../src/components/homeComponents/showAllPost.js';
 
 jest.mock('firebase/firestore', () => ({
-  // getDoc: jest.fn(),
   getFirestore: jest.fn(),
   addDoc: jest.fn(),
   collection: jest.fn(),
@@ -26,20 +25,21 @@ jest.mock('../src/lib/firestore', () => ({
   editPost: jest.fn(),
   deletePost: jest.fn(),
 }));
-// jest.mock('../src/lib/firestore');
+
 describe('home', () => {
   const navigateTo = jest.fn();
   beforeEach(() => {
+    jest.clearAllMocks();
     document.body.innerHTML = '';
     document.body.append(home(navigateTo));
   });
-  it('Arroja un mensaje que nos indica que los campos estan vacios', () => {
+  it('Debería mostrar un mensaje que nos indica que los campos estan vacios', () => {
     const buttonPublish = document.getElementById('btnPublish');
     buttonPublish.click();
     const messagePublish = document.getElementById('msgPublish');
     expect(messagePublish.textContent).toBe('El campo de publicación no puede estar vacío');
   });
-  it('Realiza la publicación', async () => {
+  it('Debería realizar la publicación', async () => {
     const newPostMock = jest.spyOn(firestoreMock, 'newPost');
     const textPost = document.getElementById('textPost');
     const buttonPublish = document.getElementById('btnPublish');
@@ -49,52 +49,45 @@ describe('home', () => {
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(newPostMock).toHaveBeenCalledWith('email@gmail.com', 'escuchen esto');
   });
-  it('El botón de cerrar sesión me lleve al Login', async () => {
-    // firebaseAuth.signOut.mockResolvedValue(1234);
+  it('El botón de cerrar sesión debería llevarme Login', async () => {
     const btn = document.getElementById('btnLogout');
     btn.click();
-    // expect(logoutUser).toHaveBeenCalled();
-    // eslint-disable-next-line no-promise-executor-return
-    await new Promise((resolve) => setTimeout(resolve, 0));
     expect(navigateTo).toHaveBeenCalledWith('/');
   });
-  it('Onsnapshot fn', async () => {
+  it('Debería llamar a la función listenToPost para mostrar los post', async () => {
     const listenToPostsMock = jest.spyOn(firestoreMock, 'listenToPosts');
-    // eslint-disable-next-line no-promise-executor-return
-    await new Promise((resolve) => setTimeout(resolve, 0));
     expect(listenToPostsMock).toHaveBeenCalled();
   });
 });
-describe('showAllPost', () => {
+describe('showPost', () => {
   let sectionPost;
   beforeEach(() => {
     document.body.innerHTML = '';
     sectionPost = document.createElement('section');
     document.body.append(sectionPost);
   });
-  it('should add a like when heart icon is clicked', async () => {
+  it('Debería añadir un like cuando el ícono de corazón es clicleado', async () => {
+    const postWithLikes = [
+      {
+        id: 'post1',
+        contentPost: 'Liked post',
+        creator: 'test@example.com',
+        likes: [],
+      },
+    ];
     const addLikeMock = jest.spyOn(firestoreMock, 'addLike');
     const deleteLikeMock = jest.spyOn(firestoreMock, 'deleteLike');
     const listenToPostsMock = jest.spyOn(firestoreMock, 'listenToPosts');
     const getEmailMock = jest.spyOn(authMock, 'getEmail');
     getEmailMock.mockResolvedValue('test@example.com');
     listenToPostsMock.mockImplementationOnce(async (updateFunction) => {
-      const postWithLikes = [
-        {
-          id: 'post1',
-          contentPost: 'Liked post',
-          creator: 'test@example.com',
-          likes: [],
-        },
-      ];
       await updateFunction(postWithLikes);
     });
 
     await showPosts(sectionPost);
-    // await new Promise((resolve) => setTimeout(resolve, 0));
+
     // Simula el clic en el corazón
     const heartIcon = document.getElementById('like-0');
-    // await new Promise((resolve) => setTimeout(resolve, 0));
     heartIcon.click();
 
     /* Verifica que la función addLike se haya llamado
@@ -110,7 +103,7 @@ describe('showAllPost', () => {
     expect(deleteLikeMock).toHaveBeenCalledWith('post1', 'test@example.com');
     expect(heartIcon.checked).toBe(false);
   });
-  it('click the option Edit', async () => {
+  it('Debería editar el texto del post', async () => {
     const editPostMock = jest.spyOn(firestoreMock, 'editPost');
     const listenToPostsMock = jest.spyOn(firestoreMock, 'listenToPosts');
     const getEmailMock = jest.spyOn(authMock, 'getEmail');
@@ -136,10 +129,9 @@ describe('showAllPost', () => {
     });
 
     await showPosts(sectionPost);
-    // await new Promise((resolve) => setTimeout(resolve, 0));
     const btnSaveChanges = document.getElementById('btnSaveChanges');
     const selectElement = document.getElementById('menuPost');
-    // Índice de la opción que deseas hacer clic
+    // Se selecciona la opción de editar
     selectElement.selectedIndex = 1;
     expect(btnSaveChanges.style.display).toBe('none');
     selectElement.dispatchEvent(new Event('change'));
@@ -151,8 +143,7 @@ describe('showAllPost', () => {
     btnSaveChanges.click();
     expect(editPostMock).toHaveBeenCalledWith('post1', newText);
   });
-  it('should not to call the function', async () => {
-    // const editPostMock = jest.spyOn(firestoreMock, 'editPost');
+  it('El botón de guardar cambios debería estar deshabilidado', async () => {
     const listenToPostsMock = jest.spyOn(firestoreMock, 'listenToPosts');
     const getEmailMock = jest.spyOn(authMock, 'getEmail');
     getEmailMock.mockResolvedValue('test@example.com');
@@ -177,10 +168,9 @@ describe('showAllPost', () => {
     });
 
     await showPosts(sectionPost);
-    // await new Promise((resolve) => setTimeout(resolve, 0));
     const btnSaveChanges = document.getElementById('btnSaveChanges');
     const selectElement = document.getElementById('menuPost');
-    // Índice de la opción que deseas hacer clic
+    // Se selecciona la opción de editar
     selectElement.selectedIndex = 1;
     selectElement.dispatchEvent(new Event('change'));
     expect(btnSaveChanges.style.display).toBe('block');
@@ -189,8 +179,7 @@ describe('showAllPost', () => {
     textFieldPost.dispatchEvent(new Event('change'));
     expect(btnSaveChanges.disabled).toBe(true);
   });
-  it('click the option Delete', async () => {
-    const showModalMock = jest.spyOn(deleteModal, 'showModal');
+  it('Debería mostrar la confirmación de eliminar post', async () => {
     const listenToPostsMock = jest.spyOn(firestoreMock, 'listenToPosts');
     const getEmailMock = jest.spyOn(authMock, 'getEmail');
     getEmailMock.mockResolvedValue('test@example.com');
@@ -215,14 +204,15 @@ describe('showAllPost', () => {
     });
 
     await showPosts(sectionPost);
-    // await new Promise((resolve) => setTimeout(resolve, 0));
+
     const selectElement = document.getElementById('menuPost');
-    // Índice de la opción que deseas hacer clic
+    // Se selecciona la opción de eliminar
     selectElement.selectedIndex = 2;
     selectElement.dispatchEvent(new Event('change'));
-    expect(showModalMock).toHaveBeenCalledWith('post1');
+    const deleteConfirmation = document.querySelector('#modal');
+    expect(deleteConfirmation).toBeTruthy();
   });
-  it('El modal debe eliminarse del cuerpo del documento al dar clic en cancelar', async () => {
+  it('La confirmación de eliminar post debería eliminarse del cuerpo del documento al dar clic en cancelar', async () => {
     const listenToPostsMock = jest.spyOn(firestoreMock, 'listenToPosts');
     const getEmailMock = jest.spyOn(authMock, 'getEmail');
     getEmailMock.mockResolvedValue('test@example.com');
@@ -240,9 +230,8 @@ describe('showAllPost', () => {
     });
 
     await showPosts(sectionPost);
-    // await new Promise((resolve) => setTimeout(resolve, 0));
     const selectElement = document.getElementById('menuPost');
-    // Índice de la opción que deseas hacer clic
+    // Se selecciona la opción de eliminar
     selectElement.selectedIndex = 2;
     selectElement.dispatchEvent(new Event('change'));
     const modal = document.querySelector('#modal');
@@ -271,9 +260,8 @@ describe('showAllPost', () => {
     });
 
     await showPosts(sectionPost);
-    // await new Promise((resolve) => setTimeout(resolve, 0));
     const selectElement = document.getElementById('menuPost');
-    // Índice de la opción que deseas hacer clic
+    // Se selecciona la opción de eliminar
     selectElement.selectedIndex = 2;
     selectElement.dispatchEvent(new Event('change'));
     const modal = document.querySelector('#modal');
@@ -287,4 +275,3 @@ describe('showAllPost', () => {
     expect(modalDeleted).toBe(null);
   });
 });
-// FirebaseError: [code=unavailable]: Failed to get document because the client is offline.

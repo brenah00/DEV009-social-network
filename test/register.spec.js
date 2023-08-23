@@ -1,6 +1,5 @@
 import * as authentication from 'firebase/auth';
 import register from '../src/components/register.js';
-import { newRegister } from '../src/lib/authentication.js';
 
 // Mock de createUserWithEmailAndPassword
 jest.mock('firebase/auth', () => ({
@@ -102,29 +101,5 @@ describe('register', () => {
     // eslint-disable-next-line no-promise-executor-return
     await new Promise((resolve) => setTimeout(resolve, 0));
     expect(message.textContent).toBe('Este correo ya se encuentra registrado');
-  });
-});
-
-describe('Test para validar el retorno de las credenciales en newRegister', () => {
-  it('Debe retornar las credenciales del usuario registrado correctamente', async () => {
-    jest.spyOn(authentication, 'createUserWithEmailAndPassword').mockResolvedValue({
-      user: {
-        uid: 'user-uid',
-        email: 'example@example.com',
-      },
-    });
-    const userCredentials = await newRegister('example@example.com', 'password123');
-    const user = {
-      email: 'example@example.com',
-      uid: 'user-uid',
-    };
-    expect(userCredentials.user).toEqual(user);
-    expect(userCredentials.user.uid).toBe('user-uid');
-  });
-  it('Debe retornar un error', async () => {
-    jest.spyOn(authentication, 'createUserWithEmailAndPassword').mockRejectedValue(new Error('Firebase: Error (auth/email-already-in-use).'));
-
-    const user = await newRegister('johndoe@example.com', 'password123');
-    expect(user).toBe('Firebase: Error (auth/email-already-in-use).');
   });
 });

@@ -115,14 +115,16 @@ function login(navigateTo) {
 
     buttonGoogle.addEventListener('click', async () => {
       const userCredentials = await loginGoogle();
-      await saveUser(
-        userCredentials._tokenResponse.firstName,
-        userCredentials._tokenResponse.lastName,
-        userCredentials.user.email,
-        '',
-        '',
-      );
-      navigateTo('/home');
+      if (await loginValidate() === true) {
+        await saveUser(
+          userCredentials._tokenResponse.firstName,
+          userCredentials._tokenResponse.lastName,
+          userCredentials.user.email,
+          '',
+          '',
+        );
+        navigateTo('/home');
+      }
     });
     return viewLogin;
   }

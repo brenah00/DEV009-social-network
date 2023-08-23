@@ -89,8 +89,9 @@ export const deleteLike = async (idPost, actualUser) => {
   const docSnap = await getDoc(postReference);
   const allLikes = docSnap.data().likes;
   if (allLikes.includes(actualUser)) {
+    delete (allLikes[allLikes.indexOf(actualUser)]);
     await updateDoc(postReference, {
-      likes: allLikes.filter((user) => user !== actualUser),
+      likes: allLikes.filter((user) => user !== undefined),
     });
   }
 };

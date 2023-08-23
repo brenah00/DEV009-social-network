@@ -57,20 +57,11 @@ export const logoutUser = async () => {
 };
 export const loginValidate = async () => new Promise((resolve) => {
   onAuthStateChanged(auth, (user) => {
-    if (user) {
-      resolve(true);
-    } else {
-      resolve(false);
-    }
+    resolve(!!user);
   });
 });
 export const getEmail = async () => new Promise((resolve) => {
   onAuthStateChanged(auth, (user) => {
-    if (user) {
-      const userEmail = user.email;
-      resolve(userEmail);
-    } else {
-      resolve(null);
-    }
+    resolve(user ? user.email : null);
   });
 });
